@@ -1,6 +1,8 @@
 <script lang="ts">
     import type { ComponentStore } from "./componentValueStore";
     import { Canvas, T } from "@threlte/core";
+    import Tunnel from "./components/tunnel.svelte";
+    import { OrbitControls } from "@threlte/extras";
 
 
     export let position: ComponentStore;
@@ -8,10 +10,19 @@
 </script>
 
 <Canvas>
-    <T.Scene>
-        <T.Mesh>
-            <T.BoxGeometry />
-            <T.MeshBasicMaterial />
-        </T.Mesh>
-    </T.Scene>
+
+    <T.PerspectiveCamera makeDefault position={[0, 2, 5]} >
+        <OrbitControls />
+    </T.PerspectiveCamera>
+    <Tunnel />
 </Canvas>
+
+<style>
+    body {
+        background-color: black;
+    }
+    canvas {
+        width: 100vw;
+        height: 100vh;
+    }
+</style>
