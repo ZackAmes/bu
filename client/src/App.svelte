@@ -4,6 +4,8 @@
     import { dojoStore, burnerManagerStore } from "./stores";
     import type { ComponentStore } from "./componentValueStore";
     import Scene from "./Scene.svelte";
+    import { Canvas } from "@threlte/core";
+
     let entityId: Entity;
     let address: string;
     let position: ComponentStore;
@@ -16,11 +18,12 @@
 
     $: if (dojoStore) position = componentValueStore(clientComponents.Position, entityId);
     $: if (dojoStore) moves = componentValueStore(clientComponents.Moves, entityId);
-    
+
 </script>
 
 <main>
-
-    <Scene {moves} {position}/>
+    <Canvas>
+        <Scene {moves} {position}/>
+    </Canvas>
 
 </main>
