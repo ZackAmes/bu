@@ -6,17 +6,31 @@
     import Scene from "./Scene.svelte";
     import { account } from "./stores";
     import { Canvas } from "@threlte/core";
+    import { getEntityIdFromKeys } from "@dojoengine/utils";
+    import { getComponentValue } from "@dojoengine/recs";
+    import { onMount } from "svelte";
 
     let entityId: Entity;
     let address: string;
-    let session: ComponentStore;
+    let session: any;
+
+    onMount(() => {
+        console.log("Mounted");
+        account.set(burnerManager.account);
+        console.log($account);
+    });
     
 
     $: ({ clientComponents, torii, burnerManager, client } = $dojoStore);
 
-    $: if (torii) entityId = torii.poseidonHash([burnerManager.getActiveAccount()?.address!])
+    if ($account) entityId = getEntityIdFromKeys([
+        BigInt($account.address),
+    ]) as Entity;
 
-    $: if (dojoStore) session = componentValueStore(clientComponents.Session, entityId);
+    $: if ($account) console.log(entityId);
+
+    $: if (dojoStore) session = getComponentValue(clientComponents.Session, entityId);
+    console.log(session)
 
     function handleButtonClick() {
         // Add your button click logic here
@@ -25,6 +39,11 @@
                 account.set(burnerManager.account);
             }
             console.log("Account set to", $account);
+            let entityId = getEntityIdFromKeys([
+                BigInt($account.address),
+            ]) as Entity;
+
+            console.log(getComponentValue(clientComponents.Session, entityId));
             client.spawn($account);
         }
         else {
