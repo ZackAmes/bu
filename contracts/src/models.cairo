@@ -3,8 +3,8 @@
 pub struct Ghost {
     #[key]
     pub id: u32,
-    pub x: u16,
-    pub y: u16,
+    pub column: u16,
+    pub row: u16,
     pub typ: u8,
     pub health: u16,
     pub attack: u16,
@@ -13,19 +13,53 @@ pub struct Ghost {
     pub target: u32,
 }
 
+#[generate_trait]
+impl GhostImpl of GhostTrait {
+    fn new_test(id: u32) -> Ghost {
+        Ghost {
+            id,
+            column: 3,
+            row: 0,
+            typ: 0,
+            health: 100,
+            attack: 50,
+            vel_x: 1,
+            target: 0,
+            rate: 1,
+        }
+    }
+}
+
 #[derive(Copy, Drop, Serde)]
 #[dojo::model]
 pub struct Turret {
     #[key]
     pub id: u32,
-    pub x: u16,
-    pub y: u16,
+    pub column: u16,
+    pub row: u16,
     pub typ: u8,
     pub health: u16,
     pub attack: u16,
     pub rate: u16,
     pub range: u16,
     pub target: u32,
+}
+
+#[generate_trait]
+impl TurretImpl of TurretTrait {
+    fn new_test(id: u32) -> Turret {
+        Turret {
+            id,
+            column: 3,
+            row: 0,
+            typ: 0,
+            health: 100,
+            attack: 50,
+            rate: 1,
+            range: 10,
+            target: 0,
+        }
+    }
 }
 
 #[derive(Clone, Drop, Serde)]

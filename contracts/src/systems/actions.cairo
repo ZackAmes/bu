@@ -9,7 +9,7 @@ trait IActions<T> {
 mod actions {
     use super::{IActions};
     use starknet::{ContractAddress, get_caller_address};
-    use bu::models::{Turret, Ghost, Session};
+    use bu::models::{Turret, Ghost, Session, TurretTrait, GhostTrait};
     use dojo::model::{ModelStorage, ModelValueStorage};
     use dojo::event::EventStorage;
 
@@ -31,10 +31,17 @@ mod actions {
 
             session.level =1;
 
-            world.write_model(@session);
             let turret_id = uuid(ref self);
             let ghost_id = uuid(ref self);
 
+            let turret = TurretTrait::new_test(turret_id);
+            let ghost = GhostTrait::new_test(ghost_id);
+
+            world.write_model(@turret);
+            world.write_model(@ghost);
+            world.write_model(@session);
+
+            
         }
     }
 
