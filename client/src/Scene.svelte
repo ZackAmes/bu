@@ -13,8 +13,7 @@
     turretPositions.set([[1, .1, 1]])
 
 
-    export let position: ComponentStore;
-    export let moves: ComponentStore;
+    export let session: ComponentStore;
 
     useTask((delta) => {
         ghostPositions.update(positions => {

@@ -9,6 +9,7 @@ import { Account } from "starknet";
 import type { ArraySignatureType } from "starknet";
 import { BurnerManager } from "@dojoengine/create-burner";
 import { getSyncEntities, getSyncEvents } from "@dojoengine/state";
+import { account } from "../stores";
 
 export type SetupResult = Awaited<ReturnType<typeof setup>>;
 
@@ -67,6 +68,8 @@ export async function setup({ ...config }: DojoConfig) {
     await burnerManager.init();
     if (burnerManager.list().length === 0) {
       await burnerManager.create();
+      account.set(burnerManager.account);
+
     }
   } catch (e) {
     console.error(e);
