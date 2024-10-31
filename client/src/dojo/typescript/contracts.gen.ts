@@ -44,8 +44,10 @@ export async function setupWorld(provider: DojoProvider) {
 		console.log("Spawning account", account);
 		console.log(provider);
 		console.log(manifest.contracts);
+		
 		let contracts = JSON.parse(JSON.stringify(manifest.contracts));
 		console.log(contracts[0].address);
+
 		let call: Call = {
 			entrypoint: "spawn",
 			contractAddress: contracts[0].address,

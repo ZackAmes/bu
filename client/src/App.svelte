@@ -9,7 +9,7 @@
     import { getEntityIdFromKeys } from "@dojoengine/utils";
     import { getComponentValue } from "@dojoengine/recs";
     import { onMount } from "svelte";
-
+    import { get } from "svelte/store";
     let entityId: Entity;
     let address: string;
     let session: any;
@@ -18,6 +18,12 @@
         console.log("Mounted");
         account.set(burnerManager.account);
         console.log($account);
+        entityId = getEntityIdFromKeys([
+            BigInt($account.address),
+        ]) as Entity;
+        session = componentValueStore(clientComponents.Session, entityId);
+        console.log(get(session));
+        
     });
     
 
@@ -42,7 +48,7 @@
             let entityId = getEntityIdFromKeys([
                 BigInt($account.address),
             ]) as Entity;
-
+            console.log(entityId);
             console.log(getComponentValue(clientComponents.Session, entityId));
             client.spawn($account);
         }
