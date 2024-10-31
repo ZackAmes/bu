@@ -3,6 +3,7 @@
     import { Canvas, T } from "@threlte/core";
     import Tunnel from "./components/tunnel.svelte";
     import { OrbitControls } from "@threlte/extras";
+    import Ghost from "./components/ghost.svelte";
 
 
     export let position: ComponentStore;
@@ -11,10 +12,13 @@
 
 <Canvas>
 
-    <T.PerspectiveCamera makeDefault position={[0, 2, 5]} >
+    <T.PerspectiveCamera rotation={[0, 0, Math.PI/2]} makeDefault position={[6, 3, 4]} on:create={(ref) => {
+        ref.ref.lookAt(0,0,0)
+    }}>
         <OrbitControls />
     </T.PerspectiveCamera>
     <Tunnel />
+    <Ghost position={[0, .1, 0]}/>
 </Canvas>
 
 <style>

@@ -16,22 +16,11 @@
 
     $: if (dojoStore) position = componentValueStore(clientComponents.Position, entityId);
     $: if (dojoStore) moves = componentValueStore(clientComponents.Moves, entityId);
-
-    $: if (burnerManagerStore) (burnerManager = $burnerManagerStore)
-    $: account = burnerManager.getActiveAccount();
-
-    function handleBurnerChange(event: Event) {
-        const target = event.target as HTMLSelectElement;
-        address = target.value;
-        console.log(address)
-        burnerManager.select(address);
-        console.log(burnerManager.getActiveAccount()?.address)
-    }
-
+    
 </script>
 
 <main>
 
-    <Scene />
+    <Scene {moves} {position}/>
 
 </main>
