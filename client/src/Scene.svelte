@@ -5,11 +5,10 @@
     import { OrbitControls } from "@threlte/extras";
     import Ghost from "./components/ghost.svelte";
     import Turret from "./components/turret.svelte";
-    import { ghostPositions } from "./stores";
+    import { ghostPositions, turretPositions } from "./stores";
 
     ghostPositions.set([[0, .1, 0]])
-
-
+    turretPositions.set([[1, .1, 1]])
 
 
     export let position: ComponentStore;
@@ -33,6 +32,9 @@
 <Tunnel />
 {#each $ghostPositions as position}
     <Ghost position={position}/>
+{/each}
+{#each $turretPositions as position}
+    <Turret position={position}/>
 {/each}
 
 

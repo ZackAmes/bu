@@ -6,3 +6,4 @@ export const burnerManagerStore = derived(dojoStore, $store => $store.burnerMana
 
 
 export const ghostPositions = writable<[number, number, number][]>([]);
+export const turretPositions = writable<[number, number, number][]>([]);
