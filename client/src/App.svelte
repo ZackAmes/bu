@@ -4,6 +4,8 @@
     import { dojoStore, burnerManagerStore } from "./stores";
     import type { ComponentStore } from "./componentValueStore";
     import Scene from "./Scene.svelte";
+    import { Canvas } from "@threlte/core";
+
     let entityId: Entity;
     let address: string;
     let position: ComponentStore;
@@ -17,21 +19,11 @@
     $: if (dojoStore) position = componentValueStore(clientComponents.Position, entityId);
     $: if (dojoStore) moves = componentValueStore(clientComponents.Moves, entityId);
 
-    $: if (burnerManagerStore) (burnerManager = $burnerManagerStore)
-    $: account = burnerManager.getActiveAccount();
-
-    function handleBurnerChange(event: Event) {
-        const target = event.target as HTMLSelectElement;
-        address = target.value;
-        console.log(address)
-        burnerManager.select(address);
-        console.log(burnerManager.getActiveAccount()?.address)
-    }
-
 </script>
 
 <main>
-
-    <Scene />
+    <Canvas>
+        <Scene {moves} {position}/>
+    </Canvas>
 
 </main>
