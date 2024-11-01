@@ -6,7 +6,7 @@
 
     console.log(ghost)
     // @ts-ignore
-    let position: [number, number, number] = [(ghost.position-4) * 2, .25, (ghost.lane -3) * 2]
+    let position: [number, number, number] = [(4 - ghost.position) * 2, .25, (ghost.lane - 3) * 2]
     console.log(position)
 </script>
 

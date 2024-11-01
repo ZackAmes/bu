@@ -14,7 +14,7 @@
 
 </script>
 
-<T.Mesh position={[10, 0, 4]}>
+<T.Mesh>
     <T.Mesh rotation={[0, 0, Math.PI/2]}>
         <T.CylinderGeometry  position={[0, -5, 0]} args={[5, 5, 20]}/>
         <T.MeshStandardMaterial color={"blue"} side = {THREE.BackSide}/>
@@ -29,9 +29,3 @@
     </T.Mesh>
 </T.Mesh>
 
-{#each platforms as platform}
-<T.Mesh position={platform}>
-    <T.BoxGeometry args={[.9, .05, .9]} />
-    <T.MeshStandardMaterial color={"red"} side = {THREE.DoubleSide}/>
-</T.Mesh>
-{/each}

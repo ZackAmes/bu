@@ -10,6 +10,7 @@
     import Lights from "./components/lights.svelte";
     import Ghosts from "./components/ghosts.svelte";
     import Turrets from "./components/turrets.svelte";
+    import Grid from "./components/models/grid.svelte";
     import type { Ghost as GhostType } from "./dojo/typescript/models.gen";
     import type { Turret as TurretType } from "./dojo/typescript/models.gen";
 
@@ -39,9 +40,13 @@
 </T.PerspectiveCamera>
 <T.AmbientLight intensity={0.5}/>
 <Lights />
-<Tunnel />
-<Ghosts ghosts={$ghosts}/>
-<Turrets turrets={$turrets}/>
+<T.Group position={[10,0,4]}>
+    <Tunnel />
+    <Ghosts ghosts={$ghosts}/>
+    <Turrets turrets={$turrets}/>
+</T.Group>
+<Grid/>
+
 
 
 
