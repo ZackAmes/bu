@@ -4,7 +4,9 @@
     import type { Ghost as GhostType } from "../dojo/typescript/models.gen";
     import { Mesh } from "three";
 
-    export let ghosts: {ghost: GhostType, ref: Mesh}[];
+    export let ghosts: GhostType[];
+
+    $: console.log(ghosts)
 
     /*
     let positions = ghosts.map(ghost => {
@@ -18,5 +20,5 @@
 </script>
 
 {#each ghosts as ghost}
-    <Ghost ghost={ghost.ghost} ref={ghost.ref} />
+    <Ghost ghost={ghost} />
 {/each}

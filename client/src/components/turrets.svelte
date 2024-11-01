@@ -4,7 +4,7 @@
     import type { Turret as TurretType } from "../dojo/typescript/models.gen";
     import { Mesh } from "three";
 
-    export let turrets: {turret: TurretType, ref: Mesh}[];
+    export let turrets: TurretType[];
 
     /*
     let positions = turrets.map(turret => {
@@ -16,5 +16,5 @@
 </script>
 
 {#each turrets as turret}
-    <Turret turret={turret.turret} ref={turret.ref}/>
+    <Turret turret={turret} />
 {/each}

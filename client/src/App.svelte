@@ -51,22 +51,11 @@
             return turret;
         })
 
-        let ghostsRenders = ghosts.map((ghost: GhostType) => {
-            return {ghost, ref: new THREE.Mesh()}
-        })
-
-        let turretsRenders = turrets.map((turret: TurretType) => {
-            return {turret, ref: new THREE.Mesh()}
-        })
-
         ghostsOnchain.set(ghosts);
         turretsOnchain.set(turrets);
 
-        ghostsRender.set(ghostsRenders);
-        turretsRender.set(turretsRenders);
-
-        console.log(get(ghostsOnchain)[0])
-        console.log(get(turretsOnchain)[0])
+        ghostsRender.set(ghosts);
+        turretsRender.set(turrets);
         
     });
     

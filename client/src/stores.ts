@@ -14,5 +14,5 @@ export const currentSession = writable<ComponentStore | null>(null);
 export const ghostsOnchain = writable<GhostType[]>([]);
 export const turretsOnchain = writable<TurretType[]>([]);
 
-export const ghostsRender = writable<{ghost: GhostType, ref: Mesh}[]>([]);
-export const turretsRender = writable<{turret: TurretType, ref: Mesh}[]>([]);
+export const ghostsRender = writable<GhostType[]>([]);
+export const turretsRender = writable<TurretType[]>([]);

@@ -13,24 +13,28 @@
     import Grid from "./components/models/grid.svelte";
     import type { Ghost as GhostType } from "./dojo/typescript/models.gen";
     import type { Turret as TurretType } from "./dojo/typescript/models.gen";
+    import { useThrelte } from "@threlte/core";
 
     export let session: ComponentStore;
+    let ghosts: GhostType[] = [];
+    let turrets: TurretType[] = [];
 
-    /*
+    const { invalidate } = useThrelte()
+
+    
     useTask((delta) => {
-        ghosts.update(ghosts => {
-            return ghosts.map((ghost) => {
-                return {
-                    ...ghost,
-                    position: 5
-                }
+        ghostsRender.update(ghosts => {
+            let newGhosts = ghosts.map(ghost => {
+                // @ts-ignore
+                ghost.position = ghost.position + .1 * delta
+                return ghost
             })
+            return newGhosts
         })
-    }) */
+    }) 
 
-
-    console.log($ghostsRender)
-    console.log($turretsRender)
+    $: ghosts = $ghostsRender
+    $: turrets = $turretsRender
 </script>
 
 <T.PerspectiveCamera rotation={[0, 0, Math.PI/2]} makeDefault position={[6, 3, 4]} on:create={(ref) => {
@@ -42,8 +46,8 @@
 <Lights />
 <T.Group position={[10,0,4]}>
     <Tunnel />
-    <Ghosts ghosts={$ghostsRender}/>
-    <Turrets turrets={$turretsRender}/>
+    <Ghosts ghosts={ghosts}/>
+    <Turrets turrets={turrets}/>
 </T.Group>
 <Grid/>
 
