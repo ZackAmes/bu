@@ -19,7 +19,7 @@ impl GhostImpl of GhostTrait {
         Ghost {
             id,
             column: 3,
-            row: 0,
+            row: 10,
             typ: 0,
             health: 100,
             attack: 50,

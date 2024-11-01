@@ -34,6 +34,9 @@ mod actions {
             let turret_id = uuid(ref self);
             let ghost_id = uuid(ref self);
 
+            session.turrets.append(turret_id);
+            session.ghosts.append(ghost_id);
+
             let turret = TurretTrait::new_test(turret_id);
             let ghost = GhostTrait::new_test(ghost_id);
 

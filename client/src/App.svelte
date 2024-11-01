@@ -4,25 +4,27 @@
     import { dojoStore, burnerManagerStore } from "./stores";
     import type { ComponentStore } from "./componentValueStore";
     import Scene from "./Scene.svelte";
-    import { account } from "./stores";
+    import { account, currentSession } from "./stores";
     import { Canvas } from "@threlte/core";
     import { getEntityIdFromKeys } from "@dojoengine/utils";
     import { getComponentValue } from "@dojoengine/recs";
     import { onMount } from "svelte";
     import { get } from "svelte/store";
+
     let entityId: Entity;
-    let address: string;
     let session: any;
 
+
     onMount(() => {
-        console.log("Mounted");
+
         account.set(burnerManager.account);
-        console.log($account);
         entityId = getEntityIdFromKeys([
-            BigInt($account.address),
+            BigInt($account!.address),
         ]) as Entity;
         session = componentValueStore(clientComponents.Session, entityId);
-        console.log(get(session));
+        currentSession.set(session);
+
+
         
     });
     
@@ -35,8 +37,7 @@
 
     $: if ($account) console.log(entityId);
 
-    $: if (dojoStore) session = getComponentValue(clientComponents.Session, entityId);
-    console.log(session)
+    $: console.log(get($currentSession!));
 
     function handleButtonClick() {
         // Add your button click logic here
@@ -44,13 +45,7 @@
             if (!$account) {
                 account.set(burnerManager.account);
             }
-            console.log("Account set to", $account);
-            let entityId = getEntityIdFromKeys([
-                BigInt($account.address),
-            ]) as Entity;
-            console.log(entityId);
-            console.log(getComponentValue(clientComponents.Session, entityId));
-            client.spawn($account);
+            client.spawn($account!);
         }
         else {
             console.log("Client not found");
@@ -62,7 +57,7 @@
     .canvas-container {
         position: relative;
         width: 100%;
-        height: 100vh; /* Adjust as needed */
+        height: 98vh; /* Adjust as needed */
     }
 
     .overlay-button {
