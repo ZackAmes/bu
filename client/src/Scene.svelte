@@ -5,27 +5,26 @@
     import { OrbitControls } from "@threlte/extras";
     import Ghost from "./components/models/ghost.svelte";
     import Turret from "./components/models/turret.svelte";
-    import { ghostPositions, turretPositions } from "./stores";
+    import { ghosts, turrets } from "./stores";
     import { AmbientLight } from "three";
     import Lights from "./components/lights.svelte";
     import Ghosts from "./components/ghosts.svelte";
     import Turrets from "./components/turrets.svelte";
+    import type { Ghost as GhostType } from "./dojo/typescript/models.gen";
+    import type { Turret as TurretType } from "./dojo/typescript/models.gen";
 
     export let session: ComponentStore;
 
     useTask((delta) => {
-        ghostPositions.update(positions => {
-            return positions.map((pos) => {
-                return [pos[0] + .1 * delta, pos[1], pos[2]]
+        ghosts.update(ghosts => {
+            return ghosts.map((ghost) => {
+                return {
+                    ...ghost,
+                    position: ghost.position.value + ghost.vel.value * delta
+                }
             })
         })
     })
-
-    $: console.log($session)
-    $: console.log($session.ghosts)
-
-    $: ghosts = $session.ghosts.value
-    $: turrets = $session.turrets.value
 
 
 </script>
@@ -38,8 +37,8 @@
 <T.AmbientLight intensity={0.5}/>
 <Lights />
 <Tunnel />
-<Ghosts {ghosts}/>
-<Turrets {turrets}/>
+<Ghosts ghosts={$ghosts}/>
+<Turrets turrets={$turrets}/>
 
 
 

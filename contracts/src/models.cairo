@@ -3,8 +3,8 @@
 pub struct Ghost {
     #[key]
     pub id: u32,
-    pub column: u16,
-    pub row: u16,
+    pub lane: u16,
+    pub position: u16,
     pub typ: u8,
     pub health: u16,
     pub attack: u16,
@@ -18,8 +18,8 @@ impl GhostImpl of GhostTrait {
     fn new_test(id: u32) -> Ghost {
         Ghost {
             id,
-            column: 3,
-            row: 10,
+            lane: 3,
+            position: 0,
             typ: 0,
             health: 100,
             attack: 50,
@@ -35,8 +35,8 @@ impl GhostImpl of GhostTrait {
 pub struct Turret {
     #[key]
     pub id: u32,
-    pub column: u16,
-    pub row: u16,
+    pub lane: u16,
+    pub position: u16,
     pub typ: u8,
     pub health: u16,
     pub attack: u16,
@@ -50,8 +50,8 @@ impl TurretImpl of TurretTrait {
     fn new_test(id: u32) -> Turret {
         Turret {
             id,
-            column: 3,
-            row: 0,
+            lane: 3,
+            position: 0,
             typ: 0,
             health: 100,
             attack: 50,

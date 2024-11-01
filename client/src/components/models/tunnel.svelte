@@ -10,7 +10,8 @@
             return res
         })
     }).flat()
-    console.log(platforms)
+
+    
 </script>
 
 <T.Mesh>

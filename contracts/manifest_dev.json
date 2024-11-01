@@ -1121,8 +1121,8 @@
   },
   "contracts": [
     {
-      "address": "0x21ad6e9ae661f53a80b7148b4ee6b0478f13fe1ee94f6af35f0943a5043a18e",
-      "class_hash": "0x46317c0cb6548ad56d2ccebcf9af0b8195f7a81e27f6c0d498a6f90c78ccce0",
+      "address": "0x5c5cb25a60a7462e9d26eee005aea0f9f03c8587c8f4d2c4393c2a3606948ee",
+      "class_hash": "0x3ce2cda6b14fe3f45ffc9beb4cedc4c03cc3073bc2ed811a0f41150bcc092ea",
       "abi": [
         {
           "type": "impl",
@@ -1305,7 +1305,7 @@
   "models": [
     {
       "members": [],
-      "class_hash": "0x5122e5369f0c5332067b09f176ac92eefb6c69b74006536e7011943a895f956",
+      "class_hash": "0x48fda3e648786c9aa8c55e286fedee5216e36da8018ac1bfc10691930f7bfaf",
       "tag": "Ghost"
     },
     {
@@ -1315,7 +1315,7 @@
     },
     {
       "members": [],
-      "class_hash": "0x7607ed15181fb3a61a79c9149f40154267f2cc4438748b069f9760e8ca1a6c5",
+      "class_hash": "0x48d8c8e5556c85fd9a38936acdbc7c59df63ef3ebe412ac27c0d6921ff25cce",
       "tag": "Turret"
     }
   ],

@@ -45,25 +45,25 @@ export const FieldLayoutDefinition = {
 // Type definition for `dojo_starter::models::Ghost` struct
 export interface Ghost {
     id: Number;
-    column: Number;
-    row: Number;
+    lane: Number;
+    position: Number;
     typ: Number;
     health: Number;
     attack: Number;
     rate: Number;
-    vel_x: Number;
+    vel: Number;
     target: Number;
     
 }
 export const GhostDefinition = {
     id: RecsType.Number,
-    column: RecsType.Number,
-    row: RecsType.Number,
+    lane: RecsType.Number,
+    position: RecsType.Number,
     typ: RecsType.Number,
     health: RecsType.Number,
     attack: RecsType.Number,
     rate: RecsType.Number,
-    vel_x: RecsType.Number,
+    vel: RecsType.Number,
     target: RecsType.Number,
     
 };
@@ -91,8 +91,8 @@ export const SessionDefinition = {
 // Type definition for `dojo_starter::models::Turret` struct
 export interface Turret {
     id: Number;
-    column: Number;
-    row: Number;
+    lane: Number;
+    position: Number;
     typ: Number;
     health: Number;
     attack: Number;
@@ -103,8 +103,8 @@ export interface Turret {
 }
 export const TurretDefinition = {
     id: RecsType.Number,
-    column: RecsType.Number,
-    row: RecsType.Number,
+    lane: RecsType.Number,
+    position: RecsType.Number,
     typ: RecsType.Number,
     health: RecsType.Number,
     attack: RecsType.Number,
@@ -124,13 +124,13 @@ export function defineContractComponents(world: World) {
                 world,
                 {
                     id: RecsType.Number,
-                    column: RecsType.Number,
-                    row: RecsType.Number,
+                    lane: RecsType.Number,
+                    position: RecsType.Number,
                     typ: RecsType.Number,
                     health: RecsType.Number,
                     attack: RecsType.Number,
                     rate: RecsType.Number,
-                    vel_x: RecsType.Number,
+                    vel: RecsType.Number,
                     target: RecsType.Number,
                 },
                 {
@@ -172,8 +172,8 @@ export function defineContractComponents(world: World) {
                 world,
                 {
                     id: RecsType.Number,
-                    column: RecsType.Number,
-                    row: RecsType.Number,
+                    lane: RecsType.Number,
+                    position: RecsType.Number,
                     typ: RecsType.Number,
                     health: RecsType.Number,
                     attack: RecsType.Number,
