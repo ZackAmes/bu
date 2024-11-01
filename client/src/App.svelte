@@ -22,41 +22,38 @@
         entityId = getEntityIdFromKeys([
             BigInt($account!.address),
         ]) as Entity;
+
         session = componentValueStore(clientComponents.Session, entityId);
         currentSession.set(session);
 
+        console.log($session)
         let ghost_ids = $session.ghosts;
         let turret_ids = $session.turrets;
+        console.log(ghost_ids)
+        console.log(turret_ids)
 
         let ghostStores = ghost_ids.map((id: Number) => {
-            let entityId = getEntityIdFromKeys([BigInt(parseInt(id.value.toString()))]) as Entity;
-            return componentValueStore(clientComponents.Ghost, entityId);
+            // @ts-ignore
+            let entityId = getEntityIdFromKeys([BigInt(id.value)]) as Entity;
+            return getComponentValue(clientComponents.Ghost, entityId);
         })
 
         let turretStores = turret_ids.map((id: Number) => {
-            let entityId = getEntityIdFromKeys([BigInt(parseInt(id.value.toString()))]) as Entity;
-            return componentValueStore(clientComponents.Turret, entityId);
+            // @ts-ignore
+            let entityId = getEntityIdFromKeys([BigInt(id.value)]) as Entity;
+            return getComponentValue(clientComponents.Turret, entityId);
         })
 
         ghosts.set(ghostStores);
         turrets.set(turretStores);
 
-        console.log(get(get(ghosts)[0]))
-        console.log(get(get(turrets)[0]))
-
-
-
+        console.log(get(ghosts)[0])
+        console.log(get(turrets)[0])
         
     });
     
 
     $: ({ clientComponents, torii, burnerManager, client } = $dojoStore);
-
-    if ($account) entityId = getEntityIdFromKeys([
-        BigInt($account.address),
-    ]) as Entity;
-
-    $: console.log(get($currentSession!));
 
     function handleButtonClick() {
         // Add your button click logic here

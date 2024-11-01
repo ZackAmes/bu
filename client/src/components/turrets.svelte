@@ -12,9 +12,8 @@
     })
     */
 
-    let positions: [number, number, number][] = [[5,.1,0]]
 </script>
 
-{#each positions as position}
-    <Turret position={position}/>
+{#each turrets as turret}
+    <Turret turret={turret}/>
 {/each}

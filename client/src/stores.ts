@@ -10,5 +10,5 @@ export const burnerManagerStore = derived(dojoStore, $store => $store.burnerMana
 export const account = writable<Account | null>(null);
 export const currentSession = writable<ComponentStore | null>(null);
 
-export const ghosts = writable<ComponentStore[]>([]);
-export const turrets = writable<ComponentStore[]>([]);
+export const ghosts = writable<GhostType[]>([]);
+export const turrets = writable<TurretType[]>([]);

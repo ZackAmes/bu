@@ -16,6 +16,6 @@
 
 </script>
 
-{#each positions as position}
-    <Ghost position={position}/>
+{#each ghosts as ghost}
+    <Ghost ghost={ghost}/>
 {/each}

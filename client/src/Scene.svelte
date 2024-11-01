@@ -29,6 +29,7 @@
 
 
     console.log($ghosts)
+    console.log($turrets)
 </script>
 
 <T.PerspectiveCamera rotation={[0, 0, Math.PI/2]} makeDefault position={[6, 3, 4]} on:create={(ref) => {

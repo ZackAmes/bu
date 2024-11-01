@@ -51,7 +51,7 @@ export interface Ghost {
     health: Number;
     attack: Number;
     rate: Number;
-    vel: Number;
+    vel_x: Number;
     target: Number;
     
 }
@@ -63,7 +63,7 @@ export const GhostDefinition = {
     health: RecsType.Number,
     attack: RecsType.Number,
     rate: RecsType.Number,
-    vel: RecsType.Number,
+    vel_x: RecsType.Number,
     target: RecsType.Number,
     
 };
@@ -130,7 +130,7 @@ export function defineContractComponents(world: World) {
                     health: RecsType.Number,
                     attack: RecsType.Number,
                     rate: RecsType.Number,
-                    vel: RecsType.Number,
+                    vel_x: RecsType.Number,
                     target: RecsType.Number,
                 },
                 {
