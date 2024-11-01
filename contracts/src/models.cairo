@@ -51,7 +51,7 @@ impl TurretImpl of TurretTrait {
         Turret {
             id,
             lane: 3,
-            position: 0,
+            position: 10,
             typ: 0,
             health: 100,
             attack: 50,
