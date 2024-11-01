@@ -2,8 +2,9 @@
     import { T } from "@threlte/core";
     import Ghost from "./models/ghost.svelte";
     import type { Ghost as GhostType } from "../dojo/typescript/models.gen";
+    import { Mesh } from "three";
 
-    export let ghosts: GhostType[];
+    export let ghosts: {ghost: GhostType, ref: Mesh}[];
 
     /*
     let positions = ghosts.map(ghost => {
@@ -17,5 +18,5 @@
 </script>
 
 {#each ghosts as ghost}
-    <Ghost ghost={ghost}/>
+    <Ghost ghost={ghost.ghost} ref={ghost.ref} />
 {/each}

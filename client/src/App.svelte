@@ -8,11 +8,12 @@
     import { Canvas } from "@threlte/core";
     import { getEntityIdFromKeys } from "@dojoengine/utils";
     import { getComponentValue } from "@dojoengine/recs";
-    import { ghosts, turrets } from "./stores";
+    import { ghostsOnchain, turretsOnchain, ghostsRender, turretsRender } from "./stores";
     import { onMount } from "svelte";
     import { get } from "svelte/store";
     import type {Turret as TurretType} from "./dojo/typescript/models.gen";
     import type {Ghost as GhostType} from "./dojo/typescript/models.gen";
+    import * as THREE from "three";
 
     let entityId: Entity;
     let session: any;
@@ -36,25 +37,36 @@
         console.log(ghost_ids)
         console.log(turret_ids)
 
-        let ghostStores = ghost_ids.map((id: Number) => {
+        let ghosts = ghost_ids.map((id: Number) => {
             // @ts-ignore
             let entityId = getEntityIdFromKeys([BigInt(id.value)]) as Entity;
             let ghost: GhostType = getComponentValue(clientComponents.Ghost, entityId)!;
             return ghost;
         })
 
-        let turretStores = turret_ids.map((id: Number) => {
+        let turrets = turret_ids.map((id: Number) => {
             // @ts-ignore
             let entityId = getEntityIdFromKeys([BigInt(id.value)]) as Entity;
             let turret: TurretType = getComponentValue(clientComponents.Turret, entityId)!;
             return turret;
         })
 
-        ghosts.set(ghostStores);
-        turrets.set(turretStores);
+        let ghostsRenders = ghosts.map((ghost: GhostType) => {
+            return {ghost, ref: new THREE.Mesh()}
+        })
 
-        console.log(get(ghosts)[0])
-        console.log(get(turrets)[0])
+        let turretsRenders = turrets.map((turret: TurretType) => {
+            return {turret, ref: new THREE.Mesh()}
+        })
+
+        ghostsOnchain.set(ghosts);
+        turretsOnchain.set(turrets);
+
+        ghostsRender.set(ghostsRenders);
+        turretsRender.set(turretsRenders);
+
+        console.log(get(ghostsOnchain)[0])
+        console.log(get(turretsOnchain)[0])
         
     });
     

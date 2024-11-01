@@ -2,8 +2,9 @@
     import { T } from "@threlte/core";
     import Turret from "./models/turret.svelte";
     import type { Turret as TurretType } from "../dojo/typescript/models.gen";
+    import { Mesh } from "three";
 
-    export let turrets: TurretType[];
+    export let turrets: {turret: TurretType, ref: Mesh}[];
 
     /*
     let positions = turrets.map(turret => {
@@ -15,5 +16,5 @@
 </script>
 
 {#each turrets as turret}
-    <Turret turret={turret}/>
+    <Turret turret={turret.turret} ref={turret.ref}/>
 {/each}

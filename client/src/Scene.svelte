@@ -5,7 +5,7 @@
     import { OrbitControls } from "@threlte/extras";
     import Ghost from "./components/models/ghost.svelte";
     import Turret from "./components/models/turret.svelte";
-    import { ghosts, turrets } from "./stores";
+    import { ghostsRender, turretsRender } from "./stores";
     import { AmbientLight } from "three";
     import Lights from "./components/lights.svelte";
     import Ghosts from "./components/ghosts.svelte";
@@ -29,8 +29,8 @@
     }) */
 
 
-    console.log($ghosts)
-    console.log($turrets)
+    console.log($ghostsRender)
+    console.log($turretsRender)
 </script>
 
 <T.PerspectiveCamera rotation={[0, 0, Math.PI/2]} makeDefault position={[6, 3, 4]} on:create={(ref) => {
@@ -42,14 +42,10 @@
 <Lights />
 <T.Group position={[10,0,4]}>
     <Tunnel />
-    <Ghosts ghosts={$ghosts}/>
-    <Turrets turrets={$turrets}/>
+    <Ghosts ghosts={$ghostsRender}/>
+    <Turrets turrets={$turretsRender}/>
 </T.Group>
 <Grid/>
-
-
-
-
 
 <style>
     body {
