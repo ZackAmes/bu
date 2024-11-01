@@ -15,18 +15,20 @@
 
     export let session: ComponentStore;
 
+    /*
     useTask((delta) => {
         ghosts.update(ghosts => {
             return ghosts.map((ghost) => {
                 return {
                     ...ghost,
-                    position: ghost.position.value + ghost.vel.value * delta
+                    position: 5
                 }
             })
         })
-    })
+    }) */
 
 
+    console.log($ghosts)
 </script>
 
 <T.PerspectiveCamera rotation={[0, 0, Math.PI/2]} makeDefault position={[6, 3, 4]} on:create={(ref) => {

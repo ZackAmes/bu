@@ -8,6 +8,7 @@
     import { Canvas } from "@threlte/core";
     import { getEntityIdFromKeys } from "@dojoengine/utils";
     import { getComponentValue } from "@dojoengine/recs";
+    import { ghosts, turrets } from "./stores";
     import { onMount } from "svelte";
     import { get } from "svelte/store";
 
@@ -24,6 +25,26 @@
         session = componentValueStore(clientComponents.Session, entityId);
         currentSession.set(session);
 
+        let ghost_ids = $session.ghosts;
+        let turret_ids = $session.turrets;
+
+        let ghostStores = ghost_ids.map((id: Number) => {
+            let entityId = getEntityIdFromKeys([BigInt(parseInt(id.value.toString()))]) as Entity;
+            return componentValueStore(clientComponents.Ghost, entityId);
+        })
+
+        let turretStores = turret_ids.map((id: Number) => {
+            let entityId = getEntityIdFromKeys([BigInt(parseInt(id.value.toString()))]) as Entity;
+            return componentValueStore(clientComponents.Turret, entityId);
+        })
+
+        ghosts.set(ghostStores);
+        turrets.set(turretStores);
+
+        console.log(get(get(ghosts)[0]))
+        console.log(get(get(turrets)[0]))
+
+
 
         
     });
@@ -34,8 +55,6 @@
     if ($account) entityId = getEntityIdFromKeys([
         BigInt($account.address),
     ]) as Entity;
-
-    $: if ($account) console.log(entityId);
 
     $: console.log(get($currentSession!));
 
