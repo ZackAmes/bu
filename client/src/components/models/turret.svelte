@@ -8,7 +8,7 @@
     console.log(turret)
 
     // @ts-ignore
-    let position: [number, number, number] = [(turret.position-4) * 2, .25, (turret.lane -3) * 2]
+    let position: [number, number, number] = [(-4) * 2, .25, (turret.lane -3) * 2]
 </script>
 
 <T.Mesh position={position} scale={0.25}>

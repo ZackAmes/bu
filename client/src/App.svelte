@@ -11,9 +11,13 @@
     import { ghosts, turrets } from "./stores";
     import { onMount } from "svelte";
     import { get } from "svelte/store";
+    import type {Turret as TurretType} from "./dojo/typescript/models.gen";
+    import type {Ghost as GhostType} from "./dojo/typescript/models.gen";
 
     let entityId: Entity;
     let session: any;
+    let ghost_ids: number[] = [];
+    let turret_ids: number[] = [];
 
 
     onMount(() => {
@@ -27,21 +31,23 @@
         currentSession.set(session);
 
         console.log($session)
-        let ghost_ids = $session.ghosts;
-        let turret_ids = $session.turrets;
+        $: ghost_ids = $session.ghosts;
+        $: turret_ids = $session.turrets;
         console.log(ghost_ids)
         console.log(turret_ids)
 
         let ghostStores = ghost_ids.map((id: Number) => {
             // @ts-ignore
             let entityId = getEntityIdFromKeys([BigInt(id.value)]) as Entity;
-            return getComponentValue(clientComponents.Ghost, entityId);
+            let ghost: GhostType = getComponentValue(clientComponents.Ghost, entityId)!;
+            return ghost;
         })
 
         let turretStores = turret_ids.map((id: Number) => {
             // @ts-ignore
             let entityId = getEntityIdFromKeys([BigInt(id.value)]) as Entity;
-            return getComponentValue(clientComponents.Turret, entityId);
+            let turret: TurretType = getComponentValue(clientComponents.Turret, entityId)!;
+            return turret;
         })
 
         ghosts.set(ghostStores);
