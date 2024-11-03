@@ -2,7 +2,7 @@ import { DojoProvider, type DojoCall } from "@dojoengine/core";
 import { Account } from "starknet";
 import * as models from "./models.gen";
 import { type Call, type CallDetails, Contract, CallData } from "starknet";
-import manifest from "../../../../contracts/manifest_dev.json";
+import manifest from "../../../manifest_sepolia.json";
 
 export async function setupWorld(provider: DojoProvider) {
 
@@ -40,30 +40,15 @@ export async function setupWorld(provider: DojoProvider) {
 		}
 	};
 
-	const getState = async (account: Account, tick: number) => {
+	const iterate = async (account: Account, tick: number) => {
 		let contracts = JSON.parse(JSON.stringify(manifest.contracts));
+		console.log(contracts[0]);
 
 		const myTestContract = new Contract(contracts[0].abi, contracts[0].address, provider.provider).typedv2(contracts[0].abi);
 
-		let calldata	 = CallData.compile([tick]);
-		
-		let call: Call = {
-			entrypoint: "get_state",
-			contractAddress: contracts[0].address,
-			calldata: calldata,
-		};
-
 		myTestContract.connect(account);
-		let result = await myTestContract.call("get_state", [tick]);
-		console.log(result)
-		try {
-			return await provider.call(
-				"bu",
-				call
-			);
-		} catch (error) {
-			console.error(error);
-		}
+		let result = await myTestContract.call("iterate", [tick]);
+		console.log(result);
 	};
 
 	const spawn = async (account: Account) => {
@@ -94,6 +79,6 @@ export async function setupWorld(provider: DojoProvider) {
 		worldDispatcher,
 		dojoName,
 		spawn,
-		getState,
+		iterate,
 	};
 }

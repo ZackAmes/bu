@@ -86,7 +86,7 @@
             await connect();
         }
         if (client){
-            state.set(await client.getState($account!.account!, $tick));
+            state.set(await client.iterate($account!.account!, $tick));
             tick.set($tick + 1);
             console.log($state)
         }
