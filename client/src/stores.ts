@@ -5,10 +5,11 @@ import type { ComponentStore } from "./componentValueStore";
 import type { Ghost as GhostType } from "./dojo/typescript/models.gen";
 import type { Turret as TurretType } from "./dojo/typescript/models.gen";
 import { Mesh } from "three";
+import Controller from "@cartridge/controller";
 
 export const dojoStore = writable<SetupResult>();
-export const burnerManagerStore = derived(dojoStore, $store => $store.burnerManager);
-export const account = writable<Account | null>(null);
+
+export const account = writable<Controller | null>(null);
 export const currentSession = writable<ComponentStore | null>(null);
 
 export const ghostsOnchain = writable<GhostType[]>([]);
@@ -19,3 +20,5 @@ export const turretsRender = writable<TurretType[]>([]);
 
 export const tick = writable<number>(0);
 export const state = writable<any>(null);
+
+export const username = writable<string>("");

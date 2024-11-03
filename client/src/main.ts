@@ -4,6 +4,7 @@ import { setup } from "./dojo/setup";
 import { dojoConfig } from "../dojoConfig";
 import { dojoStore, account } from "./stores";
 import manifest from "../manifest_sepolia.json";
+import { controller, connect } from "./controller";
 // Create a writable store for the setup result
 
 async function initApp() {
@@ -12,7 +13,7 @@ async function initApp() {
 
   console.log(manifest.contracts[0].abi);
   dojoStore.set(setupResult);
-  account.set(setupResult.burnerManager.account);
+
 
   console.log("App initialized");
 

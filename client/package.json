@@ -19,6 +19,7 @@
     "vite": "^5.4.1"
   },
   "dependencies": {
+    "@cartridge/controller": "^0.3.46",
     "@dojoengine/core": "^1.0.0-alpha.26",
     "@dojoengine/create-burner": "^1.0.0-alpha.26",
     "@dojoengine/recs": "^2.0.13",
@@ -31,8 +32,8 @@
     "@threlte/extras": "^8.12.0",
     "starknet": "^6.11.0",
     "three": "^0.169.0",
+    "vite-plugin-mkcert": "^1.17.6",
     "vite-plugin-top-level-await": "^1.4.4",
     "vite-plugin-wasm": "^3.3.0"
-
   }
 }

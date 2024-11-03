@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { Entity } from "@dojoengine/recs";
     import { componentValueStore } from "./componentValueStore";
-    import { dojoStore, burnerManagerStore } from "./stores";
+    import { dojoStore } from "./stores";
     import type { ComponentStore } from "./componentValueStore";
     import Scene from "./Scene.svelte";
     import { account, currentSession } from "./stores";
@@ -14,6 +14,7 @@
     import type {Turret as TurretType} from "./dojo/typescript/models.gen";
     import type {Ghost as GhostType} from "./dojo/typescript/models.gen";
     import * as THREE from "three";
+    import { connect } from "./controller";
 
     let entityId: Entity;
     let session: any;
@@ -23,9 +24,8 @@
 
     onMount(() => {
 
-        account.set(burnerManager.account);
         entityId = getEntityIdFromKeys([
-            BigInt($account!.address),
+            BigInt($account!.account!.address),
         ]) as Entity;
 
         session = componentValueStore(clientComponents.Session, entityId);
@@ -54,7 +54,7 @@
         console.log(ghosts)
         console.log(turrets)
 
-        console.log(client.getState($account!, 0))
+        console.log(client.getState($account!.account!, 0))
 
         ghostsOnchain.set(ghosts);
         turretsOnchain.set(turrets);
@@ -65,15 +65,15 @@
     });
     
 
-    $: ({ clientComponents, torii, burnerManager, client } = $dojoStore);
+    $: ({ clientComponents, client } = $dojoStore);
 
     function handleButtonClick() {
         // Add your button click logic here
         if (client){
             if (!$account) {
-                account.set(burnerManager.account);
+                console.log("No account found");
             }
-            client.spawn($account!);
+            client.spawn($account!.account!);
         }
         else {
             console.log("Client not found");
@@ -81,8 +81,12 @@
     }
 
     async function handleTickClick() {
+
+        if (!$account) {
+            await connect();
+        }
         if (client){
-            state.set(await client.getState($account!, $tick));
+            state.set(await client.getState($account!.account!, $tick));
             tick.set($tick + 1);
             console.log($state)
         }
