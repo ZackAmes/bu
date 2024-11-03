@@ -22,3 +22,9 @@ export const tick = writable<number>(0);
 export const state = writable<any>(null);
 
 export const username = writable<string>("");
+
+export const isPlacingTurret = writable<boolean>(false);
+export const turretPosition = writable<[number, number, number]>([0, 0, 0]);
+
+export const isTurretSelected = writable<boolean>(false);
+export const selectedTurret = writable<TurretType | null>(null);

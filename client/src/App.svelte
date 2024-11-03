@@ -8,7 +8,7 @@
     import { Canvas } from "@threlte/core";
     import { getEntityIdFromKeys } from "@dojoengine/utils";
     import { getComponentValue } from "@dojoengine/recs";
-    import { ghostsOnchain, turretsOnchain, ghostsRender, turretsRender, tick, state } from "./stores";
+    import { ghostsOnchain, turretsOnchain, ghostsRender, turretsRender, tick, state, isPlacingTurret, isTurretSelected, selectedTurret } from "./stores";
     import { onMount } from "svelte";
     import { get } from "svelte/store";
     import type {Turret as TurretType} from "./dojo/typescript/models.gen";
@@ -23,7 +23,8 @@
 
 
     onMount(() => {
-
+        
+        if($account){
         entityId = getEntityIdFromKeys([
             BigInt($account!.account!.address),
         ]) as Entity;
@@ -50,34 +51,40 @@
             let turret: TurretType = getComponentValue(clientComponents.Turret, entityId)!;
             return turret;
         })
-
-        console.log(ghosts)
-        console.log(turrets)
-
-        console.log(client.getState($account!.account!, 0))
+        
 
         ghostsOnchain.set(ghosts);
         turretsOnchain.set(turrets);
 
         ghostsRender.set(ghosts);
         turretsRender.set(turrets);
+
+        document.addEventListener("click", onMouseMove);
+
+        }
         
     });
     
 
     $: ({ clientComponents, client } = $dojoStore);
 
-    function handleButtonClick() {
-        // Add your button click logic here
+    function handleSpawnClick() {
+        // Add your spawn button click logic here
         if (client){
             if (!$account) {
                 console.log("No account found");
             }
-            client.spawn($account!.account!);
+            client.start_game($account!.account!);
         }
         else {
             console.log("Client not found");
         }
+    }
+
+    function handleResetClick() {
+        // Add your reset button click logic here
+        console.log("Reset button clicked");
+        // Implement reset functionality as needed
     }
 
     async function handleTickClick() {
@@ -91,6 +98,14 @@
             console.log($state)
         }
     }
+
+    function handlePlaceTurretClick() {
+        isPlacingTurret.set(!$isPlacingTurret);
+    }
+
+    function onMouseMove(e: MouseEvent) {
+        console.log(e)
+    }
 </script>
 
 <style>
@@ -100,10 +115,25 @@
         height: 98vh; /* Adjust as needed */
     }
 
-    .overlay-button {
+    /* Button Containers */
+    .button-container {
         position: absolute;
         top: 20px;
+        display: flex;
+        flex-direction: column; /* Arrange buttons vertically */
+        gap: 10px; /* Space between buttons */
+    }
+
+    .right-button-container {
         right: 20px;
+    }
+
+    .left-button-container {
+        left: 20px;
+    }
+
+    /* Button Styles */
+    .overlay-button {
         padding: 10px 20px;
         background-color: #007bff;
         color: #ffffff;
@@ -118,17 +148,53 @@
     .overlay-button:hover {
         background-color: #0056b3;
     }
+
+    /* Optional: Different color for the left button */
+    .overlay-button.reset {
+        background-color: #28a745;
+    }
+
+    .overlay-button.reset:hover {
+        background-color: #1e7e34;
+    }
 </style>
 
 <main class="canvas-container">
     <Canvas>
         <Scene {session}/>
     </Canvas>
-    <button class="overlay-button" on:click={handleButtonClick}>
-        Spawn
-    </button>
+    
+    <!-- Right Button Container -->
+    {#if $account}
+    <div class="button-container right-button-container">
+        <button class="overlay-button" on:click={handleSpawnClick}>
+            Spawn
+        </button>
 
-    <button class="overlay-button" on:click={handleTickClick}>
-        Tick {$tick}
-    </button>
+        <button class="overlay-button" on:click={handleTickClick}>
+            Tick {$tick}
+        </button>
+
+        <button class="overlay-button" on:click={handlePlaceTurretClick}>
+            {#if $isPlacingTurret}
+                Cancel
+            {/if}
+            Place Tower
+        </button>
+    </div>
+    {/if}
+    {#if !$account}
+        <div class="button-container right-button-container">
+            <button class="overlay-button" on:click={() => connect()}>
+                Connect
+            </button>
+        </div>
+    {/if}
+
+    <!-- Left Button Container -->
+    <div class="button-container left-button-container">
+        <button class="overlay-button reset" on:click={handleResetClick}>
+            Reset
+        </button>
+    </div>
 </main>

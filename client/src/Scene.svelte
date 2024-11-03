@@ -46,7 +46,7 @@
 </T.PerspectiveCamera>
 <T.AmbientLight intensity={0.5}/>
 <Lights />
-<T.Group position={[10,0,4]}>
+<T.Group position={[10,0,4]} on:mouseover={(e) => console.log(e)}>
     <Tunnel />
     <Ghosts ghosts={ghosts}/>
     <Turrets turrets={turrets}/>
