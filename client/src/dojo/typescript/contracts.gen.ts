@@ -1,7 +1,7 @@
 import { DojoProvider, type DojoCall } from "@dojoengine/core";
 import { Account } from "starknet";
 import * as models from "./models.gen";
-import { type Call, type CallDetails } from "starknet";
+import { type Call, type CallDetails, Contract, CallData } from "starknet";
 import manifest from "../../../../contracts/manifest_dev.json";
 
 export async function setupWorld(provider: DojoProvider) {
@@ -40,6 +40,33 @@ export async function setupWorld(provider: DojoProvider) {
 		}
 	};
 
+	const getState = async (account: Account, tick: number) => {
+		let contracts = JSON.parse(JSON.stringify(manifest.contracts));
+		let abi = await provider.provider.getClassAt(contracts[0].address);
+
+		const myTestContract = new Contract(contracts[0].abi, contracts[0].address, provider.provider).typedv2(contracts[0].abi);
+
+		let calldata	 = CallData.compile([tick]);
+		console.log(abi)
+		let call: Call = {
+			entrypoint: "get_state",
+			contractAddress: contracts[0].address,
+			calldata: calldata,
+		};
+
+		myTestContract.connect(account);
+		let result = await myTestContract.call("get_state", [tick]);
+		console.log(result)
+		try {
+			return await provider.call(
+				"bu",
+				call
+			);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
 	const spawn = async (account: Account) => {
 		console.log("Spawning account", account);
 		console.log(provider);
@@ -68,5 +95,6 @@ export async function setupWorld(provider: DojoProvider) {
 		worldDispatcher,
 		dojoName,
 		spawn,
+		getState,
 	};
 }

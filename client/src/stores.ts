@@ -16,3 +16,6 @@ export const turretsOnchain = writable<TurretType[]>([]);
 
 export const ghostsRender = writable<GhostType[]>([]);
 export const turretsRender = writable<TurretType[]>([]);
+
+export const tick = writable<number>(0);
+export const state = writable<any>(null);

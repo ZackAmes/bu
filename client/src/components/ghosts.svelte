@@ -5,9 +5,6 @@
     import { Mesh } from "three";
 
     export let ghosts: GhostType[];
-
-    $: console.log(ghosts)
-
     /*
     let positions = ghosts.map(ghost => {
         let res: [number, number, number] = [parseInt(ghost.column.toString()), .1, parseInt(ghost.row.toString())]

@@ -8,7 +8,7 @@
     import { Canvas } from "@threlte/core";
     import { getEntityIdFromKeys } from "@dojoengine/utils";
     import { getComponentValue } from "@dojoengine/recs";
-    import { ghostsOnchain, turretsOnchain, ghostsRender, turretsRender } from "./stores";
+    import { ghostsOnchain, turretsOnchain, ghostsRender, turretsRender, tick, state } from "./stores";
     import { onMount } from "svelte";
     import { get } from "svelte/store";
     import type {Turret as TurretType} from "./dojo/typescript/models.gen";
@@ -54,6 +54,8 @@
         console.log(ghosts)
         console.log(turrets)
 
+        console.log(client.getState($account!, 0))
+
         ghostsOnchain.set(ghosts);
         turretsOnchain.set(turrets);
 
@@ -75,6 +77,14 @@
         }
         else {
             console.log("Client not found");
+        }
+    }
+
+    async function handleTickClick() {
+        if (client){
+            state.set(await client.getState($account!, $tick));
+            tick.set($tick + 1);
+            console.log($state)
         }
     }
 </script>
@@ -112,5 +122,9 @@
     </Canvas>
     <button class="overlay-button" on:click={handleButtonClick}>
         Spawn
+    </button>
+
+    <button class="overlay-button" on:click={handleTickClick}>
+        Tick {$tick}
     </button>
 </main>

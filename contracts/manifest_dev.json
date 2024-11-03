@@ -1121,8 +1121,8 @@
   },
   "contracts": [
     {
-      "address": "0x7fecd88e38e6eb4d91624621daf0c3e318ff04978304c125782978654f5b53f",
-      "class_hash": "0x61a260e5b21828dc22e25c295dadd3462e4ba3892510c2eddab09948c0871e8",
+      "address": "0x4ebb67d3ae32fa47450b9f04fa26c513eafa0b8cb0ba08f15fe2f08fe3f2745",
+      "class_hash": "0x716c6f2d7bb4b669a4cdc0eaea64de1331abc0ae201ff6725aa5e912d502883",
       "abi": [
         {
           "type": "impl",
@@ -1300,7 +1300,7 @@
                   "type": "bu::types::GameState"
                 }
               ],
-              "state_mutability": "external"
+              "state_mutability": "view"
             }
           ]
         },

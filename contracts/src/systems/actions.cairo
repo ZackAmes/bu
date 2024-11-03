@@ -2,7 +2,7 @@ use bu::types::{GameState};
 #[starknet::interface]
 trait IActions<T> {
     fn spawn(ref self: T);
-    fn get_state(ref self: T, tick: u16) -> GameState;
+    fn get_state(self: @T, tick: u16) -> GameState;
 }
 
 // dojo decorator
@@ -49,7 +49,7 @@ mod actions {
             
         }
 
-        fn get_state(ref self: ContractState, tick: u16) -> GameState {
+        fn get_state(self: @ContractState, tick: u16) -> GameState {
             let world = self.world(@"bu");
             let caller = get_caller_address();
 
