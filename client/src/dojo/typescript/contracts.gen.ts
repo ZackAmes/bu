@@ -42,12 +42,11 @@ export async function setupWorld(provider: DojoProvider) {
 
 	const getState = async (account: Account, tick: number) => {
 		let contracts = JSON.parse(JSON.stringify(manifest.contracts));
-		let abi = await provider.provider.getClassAt(contracts[0].address);
 
 		const myTestContract = new Contract(contracts[0].abi, contracts[0].address, provider.provider).typedv2(contracts[0].abi);
 
 		let calldata	 = CallData.compile([tick]);
-		console.log(abi)
+		
 		let call: Call = {
 			entrypoint: "get_state",
 			contractAddress: contracts[0].address,
