@@ -46,25 +46,27 @@ export const FieldLayoutDefinition = {
 export interface Ghost {
     id: Number;
     lane: Number;
-    position: Number;
+    pos: Number;
     typ: Number;
     health: Number;
     attack: Number;
     rate: Number;
-    vel_x: Number;
-    target: Number;
+    range: Number;
+    vel: Number;
+    target: BigInt;
     
 }
 export const GhostDefinition = {
     id: RecsType.Number,
     lane: RecsType.Number,
-    position: RecsType.Number,
+    pos: RecsType.Number,
     typ: RecsType.Number,
     health: RecsType.Number,
     attack: RecsType.Number,
     rate: RecsType.Number,
-    vel_x: RecsType.Number,
-    target: RecsType.Number,
+    range: RecsType.Number,
+    vel: RecsType.Number,
+    target: RecsType.BigInt,
     
 };
 
@@ -92,25 +94,25 @@ export const SessionDefinition = {
 export interface Turret {
     id: Number;
     lane: Number;
-    position: Number;
+    pos: Number;
     typ: Number;
     health: Number;
     attack: Number;
     rate: Number;
     range: Number;
-    target: Number;
+    target: BigInt;
     
 }
 export const TurretDefinition = {
     id: RecsType.Number,
     lane: RecsType.Number,
-    position: RecsType.Number,
+    pos: RecsType.Number,
     typ: RecsType.Number,
     health: RecsType.Number,
     attack: RecsType.Number,
     rate: RecsType.Number,
     range: RecsType.Number,
-    target: RecsType.Number,
+    target: RecsType.BigInt,
     
 };
 
@@ -125,13 +127,14 @@ export function defineContractComponents(world: World) {
                 {
                     id: RecsType.Number,
                     lane: RecsType.Number,
-                    position: RecsType.Number,
+                    pos: RecsType.Number,
                     typ: RecsType.Number,
                     health: RecsType.Number,
                     attack: RecsType.Number,
                     rate: RecsType.Number,
-                    vel_x: RecsType.Number,
-                    target: RecsType.Number,
+                    range: RecsType.Number,
+                    vel: RecsType.Number,
+                    target: RecsType.BigInt,
                 },
                 {
                     metadata: {
@@ -173,13 +176,13 @@ export function defineContractComponents(world: World) {
                 {
                     id: RecsType.Number,
                     lane: RecsType.Number,
-                    position: RecsType.Number,
+                    pos: RecsType.Number,
                     typ: RecsType.Number,
                     health: RecsType.Number,
                     attack: RecsType.Number,
                     rate: RecsType.Number,
                     range: RecsType.Number,
-                    target: RecsType.Number,
+                    target: RecsType.BigInt,
                 },
                 {
                     metadata: {

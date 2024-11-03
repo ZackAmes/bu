@@ -26,15 +26,17 @@
         ghostsRender.update(ghosts => {
             let newGhosts = ghosts.map(ghost => {
                 // @ts-ignore
-                ghost.position = ghost.position + .1 * delta
+                ghost.pos = ghost.pos + .1 * delta
                 return ghost
             })
             return newGhosts
         })
+
     }) 
 
     $: ghosts = $ghostsRender
     $: turrets = $turretsRender
+
 </script>
 
 <T.PerspectiveCamera rotation={[0, 0, Math.PI/2]} makeDefault position={[6, 3, 4]} on:create={(ref) => {

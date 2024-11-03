@@ -1121,8 +1121,8 @@
   },
   "contracts": [
     {
-      "address": "0x38a808651880d403e45c54cb7e9a2612625be84ce5e7897ad670ce949a07275",
-      "class_hash": "0x2f09f77674fc26b7f34ebd1724d46d032fc609b5c915f7d6d174715671d9bf5",
+      "address": "0x7fecd88e38e6eb4d91624621daf0c3e318ff04978304c125782978654f5b53f",
+      "class_hash": "0x61a260e5b21828dc22e25c295dadd3462e4ba3892510c2eddab09948c0871e8",
       "abi": [
         {
           "type": "impl",
@@ -1170,6 +1170,112 @@
           "interface_name": "bu::systems::actions::IActions"
         },
         {
+          "type": "struct",
+          "name": "bu::models::Turret",
+          "members": [
+            {
+              "name": "id",
+              "type": "core::felt252"
+            },
+            {
+              "name": "lane",
+              "type": "core::integer::u16"
+            },
+            {
+              "name": "pos",
+              "type": "core::integer::u16"
+            },
+            {
+              "name": "typ",
+              "type": "core::integer::u8"
+            },
+            {
+              "name": "health",
+              "type": "core::integer::u16"
+            },
+            {
+              "name": "attack",
+              "type": "core::integer::u16"
+            },
+            {
+              "name": "range",
+              "type": "core::integer::u16"
+            },
+            {
+              "name": "rate",
+              "type": "core::integer::u16"
+            },
+            {
+              "name": "target",
+              "type": "core::felt252"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "bu::models::Ghost",
+          "members": [
+            {
+              "name": "id",
+              "type": "core::felt252"
+            },
+            {
+              "name": "lane",
+              "type": "core::integer::u16"
+            },
+            {
+              "name": "pos",
+              "type": "core::integer::u16"
+            },
+            {
+              "name": "typ",
+              "type": "core::integer::u8"
+            },
+            {
+              "name": "health",
+              "type": "core::integer::u16"
+            },
+            {
+              "name": "attack",
+              "type": "core::integer::u16"
+            },
+            {
+              "name": "rate",
+              "type": "core::integer::u16"
+            },
+            {
+              "name": "range",
+              "type": "core::integer::u16"
+            },
+            {
+              "name": "vel",
+              "type": "core::integer::u16"
+            },
+            {
+              "name": "target",
+              "type": "core::felt252"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "bu::types::GameState",
+          "members": [
+            {
+              "name": "turrets",
+              "type": "core::array::Array::<bu::models::Turret>"
+            },
+            {
+              "name": "ghosts",
+              "type": "core::array::Array::<bu::models::Ghost>"
+            },
+            {
+              "name": "tick",
+              "type": "core::integer::u16"
+            }
+          ]
+        },
+        {
           "type": "interface",
           "name": "bu::systems::actions::IActions",
           "items": [
@@ -1178,6 +1284,22 @@
               "name": "spawn",
               "inputs": [],
               "outputs": [],
+              "state_mutability": "external"
+            },
+            {
+              "type": "function",
+              "name": "get_state",
+              "inputs": [
+                {
+                  "name": "tick",
+                  "type": "core::integer::u16"
+                }
+              ],
+              "outputs": [
+                {
+                  "type": "bu::types::GameState"
+                }
+              ],
               "state_mutability": "external"
             }
           ]
@@ -1305,17 +1427,17 @@
   "models": [
     {
       "members": [],
-      "class_hash": "0x48fda3e648786c9aa8c55e286fedee5216e36da8018ac1bfc10691930f7bfaf",
+      "class_hash": "0x27ed8af6a15d2841032c71ac23bbfc6285fe160ee1b44a4e2e98de3ad37640e",
       "tag": "Ghost"
     },
     {
       "members": [],
-      "class_hash": "0x7451025e8b7f9f3514e79248b13cb49ef6a9fc7d2f9bbf127113740e8da7e5f",
+      "class_hash": "0x6e5c1da0fa18e5ec16c7883760049e77b2548dedbce3883ee31d42f0e38bfd9",
       "tag": "Session"
     },
     {
       "members": [],
-      "class_hash": "0x48d8c8e5556c85fd9a38936acdbc7c59df63ef3ebe412ac27c0d6921ff25cce",
+      "class_hash": "0x427696e302e112e219f0d68c45c05cd2da436f975fde12193d723a6df0fb85f",
       "tag": "Turret"
     }
   ],

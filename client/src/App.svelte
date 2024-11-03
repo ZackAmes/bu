@@ -51,6 +51,9 @@
             return turret;
         })
 
+        console.log(ghosts)
+        console.log(turrets)
+
         ghostsOnchain.set(ghosts);
         turretsOnchain.set(turrets);
 

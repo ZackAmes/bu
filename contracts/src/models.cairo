@@ -10,6 +10,7 @@ pub struct Ghost {
     pub attack: u16,
     pub rate: u16,
     pub range: u16,
+    pub vel: u16,
     pub target: felt252,
 }
 
@@ -25,6 +26,7 @@ impl GhostImpl of GhostTrait {
             attack: 50,
             rate: 1,
             range: 10,
+            vel: 1,
             target: 0,
         }
     }
@@ -40,8 +42,8 @@ pub struct Turret {
     pub typ: u8,
     pub health: u16,
     pub attack: u16,
+    pub range: u16,
     pub rate: u16,
-    pub vel: u16,
     pub target: felt252,
 }
 
@@ -69,8 +71,8 @@ impl TurretImpl of TurretTrait {
             typ: 0,
             health: 100,
             attack: 50,
+            range: 3,
             rate: 1,
-            vel: 1,
             target: 0,
         }
     }
