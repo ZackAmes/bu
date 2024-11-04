@@ -12,10 +12,12 @@
     })
     */
 
+    
+
     let positions: [number, number, number][] = [[0,.1,0]]
 
 </script>
 
 {#each ghosts as ghost}
-    <Ghost pos={ghost.pos} lane={ghost.lane} />
+    <Ghost pos={parseInt(ghost.pos)} lane={parseInt(ghost.lane)} />
 {/each}

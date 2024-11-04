@@ -8,8 +8,12 @@
     export let pos: number 
     export let lane: number
 
+    console.log(pos, lane)
+
     // @ts-ignore
-    $: position = [(4 - pos) * 2, .25, (lane - 3) * 2]
+    $: position = [(4 - pos * 2), .25, lane * 2]
+
+    $: console.log(position)
 
 
 </script>

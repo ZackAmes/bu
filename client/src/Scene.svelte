@@ -18,7 +18,6 @@
     let turrets: any[];
     useTask((delta) => {
         if ($state){
-            console.log($state)
             
         }
 

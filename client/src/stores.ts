@@ -4,7 +4,7 @@ import type { Account } from "starknet";
 import type { ComponentStore } from "./componentValueStore";
 import type { Ghost as GhostType } from "./dojo/typescript/models.gen";
 import type { Turret as TurretType } from "./dojo/typescript/models.gen";
-import { Mesh } from "three";
+import * as THREE from 'three';
 import Controller from "@cartridge/controller";
 
 export const dojoStore = writable<SetupResult>();
@@ -21,3 +21,6 @@ export const turretPosition = writable<[number, number, number]>([0, 0, 0]);
 
 export const isTurretSelected = writable<boolean>(false);
 export const selectedTurret = writable<TurretType | null>(null);
+
+export const tunnelTexture = writable<THREE.Texture | null>(null);
+export const portalTexture = writable<THREE.Texture | null>(null);
