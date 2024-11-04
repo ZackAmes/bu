@@ -1122,7 +1122,7 @@
   "contracts": [
     {
       "address": "0x4e817ce0c1bdee2e48c2667a89ed16303e74fbd591bdb9930abde59d735706a",
-      "class_hash": "0x7b38e4206f9720b5bf15a615cdf7891ca5240f0be1953c706eab7dfa1e15158",
+      "class_hash": "0x24e3f878384e7e8714eaa591043fbdf8157c857ee95c4c61cc33326699a6394",
       "abi": [
         {
           "type": "impl",
@@ -1171,6 +1171,20 @@
         },
         {
           "type": "enum",
+          "name": "core::bool",
+          "variants": [
+            {
+              "name": "False",
+              "type": "()"
+            },
+            {
+              "name": "True",
+              "type": "()"
+            }
+          ]
+        },
+        {
+          "type": "enum",
           "name": "the_game::attacker::AttackerType",
           "variants": [
             {
@@ -1198,24 +1212,6 @@
             {
               "name": "typ",
               "type": "the_game::attacker::AttackerType"
-            }
-          ]
-        },
-        {
-          "type": "struct",
-          "name": "the_game::level::Level",
-          "members": [
-            {
-              "name": "lanes",
-              "type": "core::integer::u16"
-            },
-            {
-              "name": "distance",
-              "type": "core::integer::u16"
-            },
-            {
-              "name": "attacker_spawn",
-              "type": "core::array::Array::<the_game::level::AttackerSpawn>"
             }
           ]
         },
@@ -1253,6 +1249,10 @@
             },
             {
               "name": "vel",
+              "type": "core::integer::u16"
+            },
+            {
+              "name": "gold",
               "type": "core::integer::u16"
             },
             {
@@ -1314,6 +1314,10 @@
             {
               "name": "target",
               "type": "core::felt252"
+            },
+            {
+              "name": "gold",
+              "type": "core::integer::u16"
             }
           ]
         },
@@ -1322,12 +1326,28 @@
           "name": "the_game::state_array::state::ArrState",
           "members": [
             {
-              "name": "level",
-              "type": "the_game::level::Level"
+              "name": "base_health",
+              "type": "core::integer::u32"
             },
             {
-              "name": "attacker_spawn_index",
+              "name": "gold",
+              "type": "core::integer::u16"
+            },
+            {
+              "name": "finish",
+              "type": "core::bool"
+            },
+            {
+              "name": "win",
+              "type": "core::bool"
+            },
+            {
+              "name": "level",
               "type": "core::integer::u32"
+            },
+            {
+              "name": "pending_attackers",
+              "type": "core::array::Array::<the_game::level::AttackerSpawn>"
             },
             {
               "name": "attackers",
@@ -1359,8 +1379,12 @@
               "name": "iterate",
               "inputs": [
                 {
+                  "name": "player",
+                  "type": "core::starknet::contract_address::ContractAddress"
+                },
+                {
                   "name": "iteration",
-                  "type": "core::integer::u32"
+                  "type": "core::integer::u16"
                 }
               ],
               "outputs": [
@@ -1376,7 +1400,7 @@
               "inputs": [
                 {
                   "name": "iteration",
-                  "type": "core::integer::u32"
+                  "type": "core::integer::u16"
                 },
                 {
                   "name": "state",
@@ -1396,11 +1420,15 @@
               "inputs": [
                 {
                   "name": "iteration",
-                  "type": "core::integer::u32"
+                  "type": "core::integer::u16"
                 },
                 {
-                  "name": "defender",
-                  "type": "the_game::defender::Defender"
+                  "name": "lane",
+                  "type": "core::integer::u16"
+                },
+                {
+                  "name": "pos",
+                  "type": "core::integer::u16"
                 }
               ],
               "outputs": [],
@@ -1412,7 +1440,7 @@
               "inputs": [
                 {
                   "name": "iteration",
-                  "type": "core::integer::u32"
+                  "type": "core::integer::u16"
                 }
               ],
               "outputs": [],
@@ -1422,7 +1450,11 @@
               "type": "function",
               "name": "conclude_game",
               "inputs": [],
-              "outputs": [],
+              "outputs": [
+                {
+                  "type": "core::bool"
+                }
+              ],
               "state_mutability": "external"
             }
           ]
@@ -1547,6 +1579,17 @@
       "systems": []
     }
   ],
-  "models": [],
+  "models": [
+    {
+      "members": [],
+      "class_hash": "0x1964ee1d9b4cb582c6ca892bc11127b7550148724a5a5f33c72088db5ae8767",
+      "tag": "AddDefender"
+    },
+    {
+      "members": [],
+      "class_hash": "0x271bb766a029e6d30dd57a82844ff958d61a883c50fbefe68ba984ad6312631",
+      "tag": "Game"
+    }
+  ],
   "events": []
 }

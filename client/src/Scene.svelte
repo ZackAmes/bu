@@ -2,7 +2,6 @@
     import type { ComponentStore } from "./componentValueStore";
     import { Canvas, T, useTask } from "@threlte/core";
     import Tunnel from "./components/models/tunnel.svelte";
-    import { OrbitControls } from "@threlte/extras";
     import Ghost from "./components/models/ghost.svelte";
     import Turret from "./components/models/turret.svelte";
     import { AmbientLight } from "three";
@@ -12,7 +11,7 @@
     import Grid from "./components/models/grid.svelte";
     import type { Ghost as GhostType } from "./dojo/typescript/models.gen";
     import type { Turret as TurretType } from "./dojo/typescript/models.gen";
-    import { state, timer, tick } from "./stores";
+    import { state, timer, tick, paused } from "./stores";
     import { handleTickClick } from "./handlers";
     import { useThrelte } from "@threlte/core";
     import { get } from "svelte/store";
@@ -20,28 +19,25 @@
     let ghosts: any[];
     let turrets: any[];
     useTask((delta) => {
-        if ($state){
+        if ($state && !$paused){
             $timer = $timer + delta
             if ($timer > 3){
                 console.log("tick")
                 $timer = 0
                 handleTickClick()
             }
-            
         }
-
     }) 
 
     $: if ($state) {
         ghosts = $state.attackers
         turrets = $state.defenders
     }
-
 </script>
 
 <T.PerspectiveCamera
     makeDefault
-    position={[22, 4.25, 4]}
+    position={[22, 4, 4]}
     fov={75}
     near={0.1}
     far={1000}
@@ -49,20 +45,24 @@
         ref.ref.lookAt(10,0,4)
     }}
 />
+
 <Lights />
-<T.Group position={[10,0,4]} on:mouseover={(e) => console.log(e)}>
+<T.Group position={[10,0,4]}>
     <Tunnel />
     <Ghosts {ghosts} />
-
+    <Turrets {turrets} />
 </T.Group>
 
 <Grid/>
 
 <style>
-    body {
+    :global(body) {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
         background-color: black;
     }
-    canvas {
+    :global(canvas) {
         width: 100vw;
         height: 100vh;
     }

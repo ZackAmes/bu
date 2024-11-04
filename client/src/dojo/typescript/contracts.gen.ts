@@ -13,7 +13,7 @@ export async function setupWorld(provider: DojoProvider) {
 		const myTestContract = new Contract(contracts[0].abi, contracts[0].address, provider.provider).typedv2(contracts[0].abi);
 
 		myTestContract.connect(account);
-		let result = await myTestContract.call("iterate", [tick]);
+		let result = await myTestContract.call("iterate", [account.address, tick]);
 		console.log(result);
 		return result;
 	};
@@ -35,9 +35,17 @@ export async function setupWorld(provider: DojoProvider) {
 		console.log(contracts[0]);
 	};
 
-	const add_turret = async (account: Account, turret: models.Turret) => {
+	const add_turret = async (account: Account, tick: number, lane: number, pos: number) => {
 		let contracts = JSON.parse(JSON.stringify(manifest.contracts));
 		console.log(contracts[0]);
+
+		const myTestContract = new Contract(contracts[0].abi, contracts[0].address, provider.provider).typedv2(contracts[0].abi);
+
+		myTestContract.connect(account);
+		console.log(tick, lane, pos);
+		let result = await myTestContract.invoke("add_defender", [tick, lane, pos]);
+		console.log(result);
+		return result;
 	};
 
 

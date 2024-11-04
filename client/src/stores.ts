@@ -26,3 +26,4 @@ export const tunnelTexture = writable<THREE.Texture | null>(null);
 export const portalTexture = writable<THREE.Texture | null>(null);
 
 export const timer = writable<number>(0);
+export const paused = writable<boolean>(false);

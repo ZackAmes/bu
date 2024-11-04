@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { dojoStore, account, state, tick, isPlacingTurret } from "./stores";
+    import { dojoStore, account, state, tick, isPlacingTurret, paused } from "./stores";
     import Scene from "./Scene.svelte";
     import { Canvas } from "@threlte/core";
     import { connect } from "./controller";
@@ -33,17 +33,10 @@
         currentGameState.set('game');
     }
 
-    function handleSpawnClick() {
+    function handlePauseClick() {
         // Existing spawn logic
-        if (client){
-            if (!$account) {
-                console.log("No account found");
-            }
-            client.start_game($account!.account!);
-        }
-        else {
-            console.log("Client not found");
-        }
+        $paused = !$paused;
+       
     }
 
     function handleResetClick() {
@@ -57,6 +50,11 @@
 
     function handlePlaceTurretClick() {
         isPlacingTurret.set(!$isPlacingTurret);
+    }
+
+    // Add this if you need to format numbers
+    function formatNumber(num: number) {
+        return num.toLocaleString();
     }
 
  
@@ -114,6 +112,44 @@
     }
 
     /* Title and Loading Screens will handle their own styling */
+
+    .stats-container {
+        position: absolute;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 20px;
+        background: rgba(0, 0, 0, 0.7);
+        padding: 10px 20px;
+        border-radius: 10px;
+        color: white;
+        font-family: 'Arial', sans-serif;
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .stat-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .stat-label {
+        font-size: 14px;
+        opacity: 0.8;
+        text-transform: uppercase;
+    }
+
+    .stat-value {
+        font-size: 18px;
+        font-weight: bold;
+        color: #ffd700; /* Gold color */
+    }
+
+    .tick-value {
+        color: #00ff00; /* Green color for tick */
+    }
 </style>
 
 <main class="canvas-container">
@@ -124,29 +160,34 @@
                 <Scene/>
             </Canvas>
 
+            <!-- Stats Display -->
+            <div class="stats-container">
+                <div class="stat-item">
+                    <span class="stat-label">Gold:</span>
+                    <span class="stat-value">{formatNumber($state.gold ?? 0)}</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Tick:</span>
+                    <span class="stat-value tick-value">{$tick}</span>
+                </div>
+            </div>
+
             <!-- Right Button Container -->
             {#if $account}
                 <div class="button-container right-button-container">
-                    <button class="overlay-button" on:click={handleSpawnClick}>
-                        Spawn
+                    <button class="overlay-button" on:click={handlePauseClick}>
+                        {#if $paused}
+                            Resume
+                        {/if}
+                        {#if !$paused}
+                            Pause
+                        {/if}
                     </button>
-
-                    <button class="overlay-button" on:click={handleTickClick}>
-                        Tick {$tick}
-                    </button>
-
                     <button class="overlay-button" on:click={handlePlaceTurretClick}>
                         {#if $isPlacingTurret}
                             Cancel
                         {/if}
                         Place Tower
-                    </button>
-                </div>
-            {/if}
-            {#if !$account}
-                <div class="button-container right-button-container">
-                    <button class="overlay-button" on:click={handleConnect}>
-                        Connect
                     </button>
                 </div>
             {/if}
