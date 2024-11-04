@@ -7,7 +7,7 @@
 
     export let turrets: any[];
 
-    
+
     function handleClick(turret: TurretType) {
         console.log(turret)
         isTurretSelected.set(true);
@@ -17,5 +17,5 @@
 </script>
 
 {#each turrets as turret}
-    <Turret turret={turret} handleClick={() => handleClick(turret)} />
+    <Turret pos={parseInt(turret.pos)} lane={parseInt(turret.lane)} />
 {/each}

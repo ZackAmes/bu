@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { dojoStore, account, state, tick, isPlacingTurret, paused } from "./stores";
+    import { dojoStore, account, state, tick, isPlacingTurret, paused, finished } from "./stores";
     import Scene from "./Scene.svelte";
     import { Canvas } from "@threlte/core";
     import { connect } from "./controller";
@@ -14,6 +14,12 @@
     const currentGameState = writable<GameState>('title');
 
     $: ({ clientComponents, client } = $dojoStore);
+
+    // Add this to check the state
+    $: if ($state) {
+        console.log("Current state:", $state);
+        console.log("Is finished:", $state.finished);
+    }
 
     function handleStart() {
         currentGameState.set('loading');
@@ -42,6 +48,7 @@
     function handleResetClick() {
         // Existing reset logic
         console.log("Reset button clicked");
+        $finished = false;
         $tick = 0;
         // Implement reset functionality as needed
     }
@@ -50,6 +57,13 @@
 
     function handlePlaceTurretClick() {
         isPlacingTurret.set(!$isPlacingTurret);
+    }
+
+    function handleRestartClick() {
+        // Reset game logic here
+        $tick = 0;
+        state.set(null);
+        currentGameState.set('title');
     }
 
     // Add this if you need to format numbers
@@ -150,6 +164,70 @@
     .tick-value {
         color: #00ff00; /* Green color for tick */
     }
+
+    .game-over-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+
+    .game-over-popup {
+        background: rgba(40, 40, 40, 0.95);
+        padding: 2rem 4rem;
+        border-radius: 15px;
+        text-align: center;
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        animation: popup 0.3s ease-out;
+    }
+
+    @keyframes popup {
+        from {
+            transform: scale(0.8);
+            opacity: 0;
+        }
+        to {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    .game-over-title {
+        color: #ff4444;
+        font-size: 48px;
+        margin-bottom: 20px;
+        font-family: 'Creepster', cursive;
+        text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+    }
+
+    .game-over-score {
+        color: #ffd700;
+        font-size: 24px;
+        margin-bottom: 30px;
+    }
+
+    .restart-button {
+        background: #ff4444;
+        color: white;
+        border: none;
+        padding: 15px 30px;
+        font-size: 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .restart-button:hover {
+        background: #ff6666;
+        transform: scale(1.05);
+    }
 </style>
 
 <main class="canvas-container">
@@ -170,6 +248,27 @@
                     <span class="stat-label">Tick:</span>
                     <span class="stat-value tick-value">{$tick}</span>
                 </div>
+            </div>
+
+            <!-- Game Over Popup - Modified to ensure it's showing -->
+            {#if $finished}
+                <div class="game-over-overlay">
+                    <div class="game-over-popup">
+                        <h1 class="game-over-title">Game Over!</h1>
+                        <div class="game-over-score">
+                            <p>Final Score: {formatNumber($state.gold ?? 0)}</p>
+                            <p>Survived until tick: {$tick}</p>
+                        </div>
+                        <button class="restart-button" on:click={handleRestartClick}>
+                            Play Again
+                        </button>
+                    </div>
+                </div>
+            {/if}
+
+            <!-- For debugging - remove this later -->
+            <div style="position: absolute; bottom: 10px; left: 10px; color: white;">
+                Debug - Finished: {$state.finished ? 'true' : 'false'}
             </div>
 
             <!-- Right Button Container -->

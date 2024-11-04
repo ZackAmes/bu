@@ -4,13 +4,12 @@
     import { onMount } from "svelte";
     import type { Turret as TurretType } from "../../dojo/typescript/models.gen";
 
-    export let turret: TurretType = {id: 0, typ: 0, health: 0, attack: 0, lane: 0, pos: 0, rate: 0, range: 0, target: 0n};
-    export let position: [number, number, number];
-    export let handleClick: () => void = () => {};
+    export let pos: number;
+    export let lane: number;
 
-    // @ts-ignore
-    $: position = position ?? [(-4) * 2, .25, (turret.lane -3) * 2];
-    
+    // Calculate base position
+    $: position = [-10 + (pos * 2), 0.25, lane * 2];
+
     // Animation parameters
     let barrelRotation = 0;
     let gunElevation = 0;
@@ -47,7 +46,7 @@
     console.log(position)
 </script>
 
-<T.Group position={position} scale={0.25} on:click={handleClick}>
+<T.Group position={position} scale={0.25}>
     <!-- Base -->
     <T.Mesh position={[0, 0.2, 0]}>
         <T.CylinderGeometry args={[1.2, 1.5, 0.4]} />
