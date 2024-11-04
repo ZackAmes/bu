@@ -40,7 +40,9 @@
 <T.Group position={[10,0,4]} on:mouseover={(e) => console.log(e)}>
     <Tunnel />
     <Ghosts {ghosts} />
+
 </T.Group>
+
 <Grid/>
 
 <style>

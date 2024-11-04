@@ -72,8 +72,8 @@
     const portalParticleCount = 500;
     const portalParticles = new Array(portalParticleCount).fill(null).map(() => ({
         position: new THREE.Vector3(
-            (Math.random() - 0.5) * 6, // Assuming portal radius is 6
-            (Math.random() - 0.5) * 6,
+            (Math.random() - 0.5) * 20, // Assuming portal radius is 6
+            (Math.random() - 0.5) * 10,
             0
         ),
         velocity: new THREE.Vector3(
@@ -107,7 +107,7 @@
         
         portalParticlePoints = new THREE.Points(portalParticleGeometry, portalParticleMaterial);
         // Position the particle system at the portal's location
-        portalParticlePoints.position.set(0, 0, -50);
+        portalParticlePoints.position.set(-10, 0, 0);
 
     
     // Animate portal particles
@@ -141,7 +141,7 @@
     </T.Mesh>
     
     <!-- Portal at the End of the Tunnel -->
-    <T.Mesh position={[0, 0, -50]} rotation={[Math.PI / 2, 0, 0]}>
+    <T.Mesh position={[-10, 0, 0]} rotation={[ 0, Math.PI/2, Math.PI]}>
         <T.CircleGeometry args={[6, 64]} />
         <T.MeshBasicMaterial
             map={$portalTexture}
