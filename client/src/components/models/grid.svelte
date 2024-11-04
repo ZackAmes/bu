@@ -1,7 +1,7 @@
 <script lang="ts">
     import { T, extend, useThrelte } from "@threlte/core";
     import * as THREE from 'three';
-    import { isPlacingTurret, turretPosition, tunnelTexture } from "../../stores";
+    import { isPlacingTurret, turretPosition, tunnelTexture, state } from "../../stores";
     import Turret from "./turret.svelte";
     import { interactivity } from "@threlte/extras";
 
@@ -15,6 +15,22 @@
     }).flat();
 
     interactivity();
+
+    let camera = useThrelte().camera;
+    console.log(camera)
+
+
+    let level = $state.level;
+
+    if (parseInt(level.lanes) === 1) {
+        platforms = platforms.filter(platform => platform[2] === 4);
+        platforms = platforms.filter(platform => platform[0] >= 12);
+    }
+    else if (parseInt(level.lanes) === 2) {
+        platforms = platforms.filter(platform => platform[2] === 4 || platform[2] === 6 || platform[2] === 2);
+        platforms = platforms.filter(platform => platform[0] >= 12);
+    }
+
 
     function onEnter(e: CustomEvent, platform: [number, number, number], index: number) {
         if ($isPlacingTurret) {
@@ -40,10 +56,13 @@
     receiveShadow
 >
     <T.PlaneGeometry args={[40, 40]} />
-    <T.MeshStandardMaterial map={$tunnelTexture} side={THREE.DoubleSide} />
+    <T.MeshStandardMaterial map={$tunnelTexture} side={THREE.DoubleSide} 
+        metalness={0.65}
+    />
 </T.Mesh>
 
 
+{#if $isPlacingTurret}
 {#each platforms as platform, i}
     <T.Group raycast={true}>
         <T.Mesh
@@ -66,3 +85,4 @@
         {/if}
     </T.Group>
 {/each}
+{/if}

@@ -24,3 +24,5 @@ export const selectedTurret = writable<TurretType | null>(null);
 
 export const tunnelTexture = writable<THREE.Texture | null>(null);
 export const portalTexture = writable<THREE.Texture | null>(null);
+
+export const timer = writable<number>(0);

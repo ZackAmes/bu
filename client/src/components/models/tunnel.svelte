@@ -140,7 +140,7 @@
         <T.MeshStandardMaterial
             map={$tunnelTexture}
             side={THREE.BackSide}
-            metalness={0.5}
+            metalness={0.8}
             roughness={0.5}
         />
     </T.Mesh>

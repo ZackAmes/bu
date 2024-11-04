@@ -12,12 +12,21 @@
     import Grid from "./components/models/grid.svelte";
     import type { Ghost as GhostType } from "./dojo/typescript/models.gen";
     import type { Turret as TurretType } from "./dojo/typescript/models.gen";
-    import { state } from "./stores";
+    import { state, timer, tick } from "./stores";
+    import { handleTickClick } from "./handlers";
+    import { useThrelte } from "@threlte/core";
+    import { get } from "svelte/store";
 
     let ghosts: any[];
     let turrets: any[];
     useTask((delta) => {
         if ($state){
+            $timer = $timer + delta
+            if ($timer > 3){
+                console.log("tick")
+                $timer = 0
+                handleTickClick()
+            }
             
         }
 
@@ -30,12 +39,16 @@
 
 </script>
 
-<T.PerspectiveCamera rotation={[0, 0, Math.PI/2]} makeDefault position={[6, 3, 4]} on:create={(ref) => {
-    ref.ref.lookAt(0,0,0)
-}}>
-    <OrbitControls />
-</T.PerspectiveCamera>
-<T.AmbientLight intensity={0.5}/>
+<T.PerspectiveCamera
+    makeDefault
+    position={[22, 4.25, 4]}
+    fov={75}
+    near={0.1}
+    far={1000}
+    on:create={(ref) => {
+        ref.ref.lookAt(10,0,4)
+    }}
+/>
 <Lights />
 <T.Group position={[10,0,4]} on:mouseover={(e) => console.log(e)}>
     <Tunnel />

@@ -35,5 +35,5 @@
 </script>
 
 {#each turrets as turret}
-    <Turret turret={turret} handleClick={() => handleClick(turret)}/>
+    <Turret turret={turret} handleClick={() => handleClick(turret)} />
 {/each}

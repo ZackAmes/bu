@@ -4,7 +4,7 @@
     import { Canvas } from "@threlte/core";
     import { connect } from "./controller";
     import TitleScreen from "./TitleScreen.svelte";
-
+    import { handleTickClick } from "./handlers";
     import { onMount } from 'svelte';
     import { writable } from 'svelte/store';
 
@@ -49,19 +49,11 @@
     function handleResetClick() {
         // Existing reset logic
         console.log("Reset button clicked");
+        $tick = 0;
         // Implement reset functionality as needed
     }
 
-    async function handleTickClick() {
-        if (!$account) {
-            await connect();
-        }
-        if (client){
-            state.set(await client.iterate($account!.account!, $tick));
-            tick.set($tick + 1);
-            console.log($state)
-        }
-    }
+  
 
     function handlePlaceTurretClick() {
         isPlacingTurret.set(!$isPlacingTurret);
