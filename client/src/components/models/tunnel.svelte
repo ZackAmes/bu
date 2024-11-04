@@ -155,7 +155,7 @@
             side={THREE.DoubleSide}
         />
     </T.Mesh>
-    <T is={portalParticlePoints} rotation={[0, Math.PI/2, 0]} position={[-11.25, 0, 0]}/>
+    <T is={portalParticlePoints} scale={1.5} rotation={[0, Math.PI/2, 0]} position={[-11.25, 0, 0]}/>
     <T is={particlePoints}/>
 </T.Mesh>
 
