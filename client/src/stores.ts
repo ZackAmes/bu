@@ -10,13 +10,6 @@ import Controller from "@cartridge/controller";
 export const dojoStore = writable<SetupResult>();
 
 export const account = writable<Controller | null>(null);
-export const currentSession = writable<ComponentStore | null>(null);
-
-export const ghostsOnchain = writable<GhostType[]>([]);
-export const turretsOnchain = writable<TurretType[]>([]);
-
-export const ghostsRender = writable<GhostType[]>([]);
-export const turretsRender = writable<TurretType[]>([]);
 
 export const tick = writable<number>(0);
 export const state = writable<any>(null);

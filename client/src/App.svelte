@@ -1,75 +1,40 @@
 <script lang="ts">
-    import type { Entity } from "@dojoengine/recs";
-    import { componentValueStore } from "./componentValueStore";
-    import { dojoStore } from "./stores";
-    import type { ComponentStore } from "./componentValueStore";
+    import { dojoStore, account, state, tick, isPlacingTurret } from "./stores";
     import Scene from "./Scene.svelte";
-    import { account, currentSession } from "./stores";
     import { Canvas } from "@threlte/core";
-    import { getEntityIdFromKeys } from "@dojoengine/utils";
-    import { getComponentValue } from "@dojoengine/recs";
-    import { ghostsOnchain, turretsOnchain, ghostsRender, turretsRender, tick, state, isPlacingTurret, isTurretSelected, selectedTurret } from "./stores";
-    import { onMount } from "svelte";
-    import { get } from "svelte/store";
-    import type {Turret as TurretType} from "./dojo/typescript/models.gen";
-    import type {Ghost as GhostType} from "./dojo/typescript/models.gen";
-    import * as THREE from "three";
     import { connect } from "./controller";
+    import TitleScreen from "./TitleScreen.svelte";
 
-    let entityId: Entity;
-    let session: any;
-    let ghost_ids: number[] = [];
-    let turret_ids: number[] = [];
+    import { onMount } from 'svelte';
+    import { writable } from 'svelte/store';
 
+    // Define game states
+    type GameState = 'title' | 'loading' | 'game';
 
-    onMount(() => {
-        
-        if($account){
-        entityId = getEntityIdFromKeys([
-            BigInt($account!.account!.address),
-        ]) as Entity;
-
-        session = componentValueStore(clientComponents.Session, entityId);
-        currentSession.set(session);
-
-        console.log($session)
-        $: ghost_ids = $session.ghosts;
-        $: turret_ids = $session.turrets;
-        console.log(ghost_ids)
-        console.log(turret_ids)
-
-        let ghosts = ghost_ids.map((id: Number) => {
-            // @ts-ignore
-            let entityId = getEntityIdFromKeys([BigInt(id.value)]) as Entity;
-            let ghost: GhostType = getComponentValue(clientComponents.Ghost, entityId)!;
-            return ghost;
-        })
-
-        let turrets = turret_ids.map((id: Number) => {
-            // @ts-ignore
-            let entityId = getEntityIdFromKeys([BigInt(id.value)]) as Entity;
-            let turret: TurretType = getComponentValue(clientComponents.Turret, entityId)!;
-            return turret;
-        })
-        
-
-        ghostsOnchain.set(ghosts);
-        turretsOnchain.set(turrets);
-
-        ghostsRender.set(ghosts);
-        turretsRender.set(turrets);
-
-        document.addEventListener("click", onMouseMove);
-
-        }
-        
-    });
-    
+    const currentGameState = writable<GameState>('title');
 
     $: ({ clientComponents, client } = $dojoStore);
 
+    function handleStart() {
+        currentGameState.set('loading');
+        initializeGame();
+    }
+
+    async function initializeGame() {
+        // Perform any initialization or loading logic here
+        if (!$account) {
+            await connect();
+        }
+        if (client && $account) {
+            const initialState = await client.iterate($account.account, 0);
+            state.set(initialState);
+            tick.set($tick + 1);
+        }
+        currentGameState.set('game');
+    }
+
     function handleSpawnClick() {
-        // Add your spawn button click logic here
+        // Existing spawn logic
         if (client){
             if (!$account) {
                 console.log("No account found");
@@ -82,13 +47,12 @@
     }
 
     function handleResetClick() {
-        // Add your reset button click logic here
+        // Existing reset logic
         console.log("Reset button clicked");
         // Implement reset functionality as needed
     }
 
     async function handleTickClick() {
-
         if (!$account) {
             await connect();
         }
@@ -103,9 +67,7 @@
         isPlacingTurret.set(!$isPlacingTurret);
     }
 
-    function onMouseMove(e: MouseEvent) {
-        console.log(e)
-    }
+    
 </script>
 
 <style>
@@ -157,44 +119,50 @@
     .overlay-button.reset:hover {
         background-color: #1e7e34;
     }
+
+    /* Title and Loading Screens will handle their own styling */
 </style>
 
 <main class="canvas-container">
-    <Canvas>
-        <Scene {session}/>
-    </Canvas>
-    
-    <!-- Right Button Container -->
-    {#if $account}
-    <div class="button-container right-button-container">
-        <button class="overlay-button" on:click={handleSpawnClick}>
-            Spawn
-        </button>
-
-        <button class="overlay-button" on:click={handleTickClick}>
-            Tick {$tick}
-        </button>
-
-        <button class="overlay-button" on:click={handlePlaceTurretClick}>
-            {#if $isPlacingTurret}
-                Cancel
-            {/if}
-            Place Tower
-        </button>
-    </div>
-    {/if}
     {#if !$account}
-        <div class="button-container right-button-container">
-            <button class="overlay-button" on:click={() => connect()}>
-                Connect
+        <TitleScreen on:start={handleStart} />
+    {:else if $state}
+            <Canvas>
+                <Scene/>
+            </Canvas>
+
+            <!-- Right Button Container -->
+            {#if $account}
+                <div class="button-container right-button-container">
+                    <button class="overlay-button" on:click={handleSpawnClick}>
+                        Spawn
+                    </button>
+
+                    <button class="overlay-button" on:click={handleTickClick}>
+                        Tick {$tick}
+                    </button>
+
+                    <button class="overlay-button" on:click={handlePlaceTurretClick}>
+                        {#if $isPlacingTurret}
+                            Cancel
+                        {/if}
+                        Place Tower
+                    </button>
+                </div>
+            {/if}
+            {#if !$account}
+                <div class="button-container right-button-container">
+                    <button class="overlay-button" on:click={handleConnect}>
+                        Connect
+                    </button>
+                </div>
+            {/if}
+
+        <!-- Left Button Container -->
+        <div class="button-container left-button-container">
+            <button class="overlay-button reset" on:click={handleResetClick}>
+                Reset
             </button>
         </div>
     {/if}
-
-    <!-- Left Button Container -->
-    <div class="button-container left-button-container">
-        <button class="overlay-button reset" on:click={handleResetClick}>
-            Reset
-        </button>
-    </div>
 </main>

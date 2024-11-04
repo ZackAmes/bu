@@ -3,12 +3,13 @@
     import type { Ghost as GhostType } from "../../dojo/typescript/models.gen";
     import { Mesh } from "three";
 
-    export let ghost: GhostType;
+    //export let ghost: GhostType;
 
-    let position: [number, number, number]
+    export let pos: number 
+    export let lane: number
 
     // @ts-ignore
-    $: position = [(4 - ghost.pos) * 2, .25, (ghost.lane - 3) * 2]
+    $: position = [(4 - pos) * 2, .25, (lane - 3) * 2]
 
 
 </script>

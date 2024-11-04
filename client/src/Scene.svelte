@@ -5,7 +5,6 @@
     import { OrbitControls } from "@threlte/extras";
     import Ghost from "./components/models/ghost.svelte";
     import Turret from "./components/models/turret.svelte";
-    import { ghostsRender, turretsRender } from "./stores";
     import { AmbientLight } from "three";
     import Lights from "./components/lights.svelte";
     import Ghosts from "./components/ghosts.svelte";
@@ -13,29 +12,22 @@
     import Grid from "./components/models/grid.svelte";
     import type { Ghost as GhostType } from "./dojo/typescript/models.gen";
     import type { Turret as TurretType } from "./dojo/typescript/models.gen";
-    import { useThrelte } from "@threlte/core";
+    import { state } from "./stores";
 
-    export let session: ComponentStore;
-    let ghosts: GhostType[] = [];
-    let turrets: TurretType[] = [];
-
-    const { invalidate } = useThrelte()
-
-    
+    let ghosts: any[];
+    let turrets: any[];
     useTask((delta) => {
-        ghostsRender.update(ghosts => {
-            let newGhosts = ghosts.map(ghost => {
-                // @ts-ignore
-                ghost.pos = ghost.pos + .1 * delta
-                return ghost
-            })
-            return newGhosts
-        })
+        if ($state){
+            console.log($state)
+            
+        }
 
     }) 
 
-    $: ghosts = $ghostsRender
-    $: turrets = $turretsRender
+    $: if ($state) {
+        ghosts = $state.attackers
+        turrets = $state.defenders
+    }
 
 </script>
 
@@ -48,8 +40,7 @@
 <Lights />
 <T.Group position={[10,0,4]} on:mouseover={(e) => console.log(e)}>
     <Tunnel />
-    <Ghosts ghosts={ghosts}/>
-    <Turrets turrets={turrets}/>
+    <Ghosts {ghosts} />
 </T.Group>
 <Grid/>
 

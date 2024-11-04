@@ -43,6 +43,3 @@
     <T.MeshStandardMaterial color={"red"} side = {THREE.DoubleSide}/>
 </T.Mesh>
 {/each}
-{#if $isPlacingTurret}
-    <Turret position={$turretPosition} handleClick={() => {}}/>
-{/if}

@@ -4,7 +4,7 @@
     import type { Ghost as GhostType } from "../dojo/typescript/models.gen";
     import { Mesh } from "three";
 
-    export let ghosts: GhostType[];
+    export let ghosts: any[]
     /*
     let positions = ghosts.map(ghost => {
         let res: [number, number, number] = [parseInt(ghost.column.toString()), .1, parseInt(ghost.row.toString())]
@@ -17,5 +17,5 @@
 </script>
 
 {#each ghosts as ghost}
-    <Ghost ghost={ghost} />
+    <Ghost pos={ghost.pos} lane={ghost.lane} />
 {/each}
